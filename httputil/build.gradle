@@ -6,7 +6,7 @@ publish {
     userOrg = 'hdandroidteam'
     groupId = 'com.hengda.zwf'
     artifactId = 'HttpUtil'
-    publishVersion = '0.1.4'
+    publishVersion = '0.1.6'
     desc = 'HttpUtil'
     website = 'https://github.com/Tailyou/'
 

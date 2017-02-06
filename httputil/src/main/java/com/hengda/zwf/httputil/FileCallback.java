@@ -12,11 +12,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Subscription;
 
-
+/**
+ * 文件下载回调
+ *
+ * @author 祝文飞（Tailyou）
+ * @time 2017/2/6 13:43
+ */
 public abstract class FileCallback implements Callback<ResponseBody> {
 
-    private String destFileDir;
-    private String destFileName;
+    private String destFileDir;//存储目录
+    private String destFileName;//文件名
 
     public FileCallback(String destFileDir, String destFileName) {
         this.destFileDir = destFileDir;
@@ -67,6 +72,12 @@ public abstract class FileCallback implements Callback<ResponseBody> {
         }
     }
 
+    /**
+     * 订阅下载进度
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/6 13:44
+     */
     private void subscribeLoadProgress() {
         Subscription subscription = RxBus.getInstance().doSubscribe(FileLoadEvent.class,
                 fileLoadEvent -> progress(fileLoadEvent.getProgress(), fileLoadEvent.getTotal()),
@@ -74,10 +85,22 @@ public abstract class FileCallback implements Callback<ResponseBody> {
         RxBus.getInstance().addSubscription(this, subscription);
     }
 
+    /**
+     * 取消订阅
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/6 13:45
+     */
     private void unsubscribe() {
         RxBus.getInstance().unSubscribe(this);
     }
 
+    /**
+     * 解压
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/6 13:45
+     */
     private void unzipFile(File file) throws Throwable {
         ZipUtil.unzipFolder(file, destFileDir, () -> onSuccess(file));
     }

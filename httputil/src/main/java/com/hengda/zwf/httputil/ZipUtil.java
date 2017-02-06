@@ -8,6 +8,12 @@ import java.util.zip.ZipInputStream;
 
 public class ZipUtil {
 
+    /**
+     * 解压
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/6 13:46
+     */
     public static void unzipFolder(File zipFile, String unzipToDirPath,
                                    IUnzipCallback callback) throws Exception {
         ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFile));
@@ -37,6 +43,12 @@ public class ZipUtil {
         inZip.close();
     }
 
+    /**
+     * 解压完成回调
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/6 13:46
+     */
     public interface IUnzipCallback {
         void completed();
     }
