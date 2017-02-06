@@ -5,9 +5,8 @@
 compile 'com.hengda.zwf:HttpUtil:0.1.6'
 ## 三、使用
 具体用法参见demo，demo以检查版本更新和安装包下载为例。
-介绍需要注意的地方，
 
-- 文件下载大文件防止内存溢出，需要增加@Streaming
+- 下载大文件需防止内存溢出，增加@Streaming即可
 
 ```
 public interface IFileService {
@@ -25,7 +24,7 @@ public interface IFileService {
 }
 ```
 
-- 解压工具类
+- 解压工具类，异步解压，增加解压完成回调
 
 ```
 public class ZipUtil {
