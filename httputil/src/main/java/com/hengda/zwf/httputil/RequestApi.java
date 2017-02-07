@@ -2,8 +2,6 @@ package com.hengda.zwf.httputil;
 
 import android.text.TextUtils;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
