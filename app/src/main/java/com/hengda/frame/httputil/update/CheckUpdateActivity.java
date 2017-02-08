@@ -1,6 +1,7 @@
 package com.hengda.frame.httputil.update;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -20,9 +21,14 @@ import com.hengda.zwf.httputil.download.function.RxDownload;
 import com.hengda.zwf.httputil.download.function.Utils;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.text.TextUtils.concat;
+import static java.io.File.separator;
 
 
 /**
@@ -149,8 +155,13 @@ public class CheckUpdateActivity extends Activity {
                 .doOnSubscribe(d -> disposable = d)
                 .doOnNext(status -> updateProgress(status))
                 .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
-                .doOnComplete(() -> Logger.e("doOnComplete"))
+                .doOnComplete(() -> installApk(saveName, savePath))
                 .subscribe();
+    }
+
+    private void installApk(String saveName, String savePath) {
+        String apkPath = TextUtils.concat(savePath, saveName).toString();
+        AppUtil.installApk(CheckUpdateActivity.this, apkPath);
     }
 
     private void updateProgress(DownloadStatus status) {
