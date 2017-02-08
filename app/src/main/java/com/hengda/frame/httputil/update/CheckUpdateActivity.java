@@ -9,21 +9,21 @@ import com.hengda.frame.httputil.DialogCenter;
 import com.hengda.frame.httputil.R;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.app.HdConstants;
-import com.hengda.frame.httputil.http.FileRequester;
 import com.hengda.frame.httputil.http.HttpRequester;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
 import com.hengda.zwf.commonutil.NetUtil;
 import com.hengda.zwf.hddialog.DialogClickListener;
-import com.hengda.zwf.httputil.FileCallback;
-import com.hengda.zwf.httputil.RequestSubscriber;
+import com.hengda.zwf.httputil.download.RxDownload;
+import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.download.function.Utils;
 import com.orhanobut.logger.Logger;
 
-import java.io.File;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -36,6 +36,7 @@ public class CheckUpdateActivity extends Activity {
 
     private TextView txtProgress;
     private TextView txtUpdateLog;
+    private Disposable disposable;
 
     /**
      * 检查更新
@@ -46,9 +47,9 @@ public class CheckUpdateActivity extends Activity {
     public void checkNewVersion(CheckCallback callback) {
         if (NetUtil.isConnected(CheckUpdateActivity.this)) {
             HttpRequester.getInstance(HdConstants.APP_UPDATE_URL)
-                    .checkUpdate(new RequestSubscriber<CheckResponse>() {
+                    .checkUpdate(new Observer<CheckResponse>() {
                         @Override
-                        public void succeed(CheckResponse checkResponse) {
+                        public void onNext(CheckResponse checkResponse) {
                             Logger.e(checkResponse.getMsg());
                             switch (checkResponse.getStatus()) {
                                 case "2001":
@@ -63,8 +64,18 @@ public class CheckUpdateActivity extends Activity {
                         }
 
                         @Override
-                        public void failed(Throwable e) {
+                        public void onError(Throwable e) {
                             Logger.e(e.getMessage());
+                        }
+
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
                         }
                     });
         }
@@ -125,7 +136,7 @@ public class CheckUpdateActivity extends Activity {
             @Override
             public void p() {
                 DialogCenter.hideDialog();
-                FileRequester.cancel();
+                Utils.dispose(disposable);
             }
         }, new String[]{"下载更新", "取消"});
     }
@@ -137,29 +148,35 @@ public class CheckUpdateActivity extends Activity {
      * @time 2016/11/30 11:47
      */
     private void loadAndInstall(CheckResponse checkResponse) {
-        String apkUrl = checkResponse.getVersionInfo().getVersionUrl();
-        String baseUrl = apkUrl.substring(0, apkUrl.lastIndexOf("/") + 1);
-        String fileName = apkUrl.substring(apkUrl.lastIndexOf("/") + 1);
-        String fileStoreDir = HdAppConfig.getDefaultFileDir();
+        String url = checkResponse.getVersionInfo().getVersionUrl();
+        String saveName = url.substring(url.lastIndexOf("/") + 1);
+        String savePath = HdAppConfig.getDefaultFileDir();
 
-        FileRequester.getInstance(baseUrl).loadFileByName(fileName,
-                new FileCallback(fileStoreDir, fileName) {
+        RxDownload.getInstance()
+                .download(url, saveName, savePath)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DownloadStatus>() {
                     @Override
-                    public void progress(long progress, long total) {
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(DownloadStatus status) {
                         txtProgress.setText(String.format("正在下载(%s/%s)",
-                                DataManager.getFormatSize(progress),
-                                DataManager.getFormatSize(total)));
+                                DataManager.getFormatSize(status.getDownloadSize()),
+                                DataManager.getFormatSize(status.getTotalSize())));
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        DialogCenter.hideDialog();
+                    public void onError(Throwable e) {
+                        Logger.e("onError");
                     }
 
                     @Override
-                    public void onSuccess(File file) {
-                        DialogCenter.hideDialog();
-                        AppUtil.installApk(CheckUpdateActivity.this, file.getAbsolutePath());
+                    public void onComplete() {
+                        Logger.e("onComplete");
                     }
                 });
     }

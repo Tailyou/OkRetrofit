@@ -3,10 +3,11 @@ package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.update.CheckResponse;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
+
 
 /**
  * 作者：Tailyou （祝文飞）

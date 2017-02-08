@@ -1,6 +1,6 @@
 package com.hengda.zwf.httputil;
 
-public class Response<T> {
+public class HttpResponse<T> {
 
     private String status;
     private String msg;
