@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.download;
+package com.hengda.zwf.httputil.download.function;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,10 +13,6 @@ import com.hengda.zwf.httputil.download.entity.DownloadEvent;
 import com.hengda.zwf.httputil.download.entity.DownloadMission;
 import com.hengda.zwf.httputil.download.entity.DownloadRecord;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.download.function.Constant;
-import com.hengda.zwf.httputil.download.function.DownloadHelper;
-import com.hengda.zwf.httputil.download.function.DownloadService;
-import com.hengda.zwf.httputil.download.function.Utils;
 
 import java.io.File;
 import java.io.InterruptedIOException;
@@ -126,35 +122,11 @@ public class RxDownload {
         return dbManager.readRecord(url);
     }
 
-    public <Upstream> ObservableTransformer<Upstream, DownloadStatus> transform(
-            @NonNull final String url,
-            @NonNull final String saveName,
-            @Nullable final String savePath) {
-        return upstream -> upstream.flatMap(new Function<Upstream, ObservableSource<DownloadStatus>>() {
-            @Override
-            public ObservableSource<DownloadStatus> apply(Upstream upstream) throws Exception {
-                return download(url, saveName, savePath);
-            }
-        });
-    }
-
     public Observable<DownloadStatus> download(
             @NonNull final String url,
             @NonNull final String saveName,
             @Nullable final String savePath) {
         return mDownloadHelper.downloadDispatcher(url, saveName, savePath);
-    }
-
-    public <Upstream> ObservableTransformer<Upstream, Object> transformService(
-            @NonNull final String url,
-            @NonNull final String saveName,
-            @Nullable final String savePath) {
-        return upstream -> upstream.flatMap(new Function<Upstream, ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> apply(Upstream upstream) throws Exception {
-                return serviceDownload(url, saveName, savePath);
-            }
-        });
     }
 
     public Observable<?> serviceDownload(
@@ -164,9 +136,7 @@ public class RxDownload {
         return createGeneralObservable(() -> addDownloadTask(url, saveName, savePath));
     }
 
-    private void addDownloadTask(@NonNull String url,
-                                 @NonNull String saveName,
-                                 @Nullable String savePath) {
+    private void addDownloadTask(@NonNull String url, @NonNull String saveName, @Nullable String savePath) {
         DownloadMission mission = new DownloadMission.Builder()
                 .setRxDownload(RxDownload.this)
                 .setUrl(url)

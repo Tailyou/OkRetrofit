@@ -15,12 +15,11 @@ import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
 import com.hengda.zwf.commonutil.NetUtil;
 import com.hengda.zwf.hddialog.DialogClickListener;
-import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.download.function.RxDownload;
 import com.hengda.zwf.httputil.download.function.Utils;
 import com.orhanobut.logger.Logger;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -46,38 +45,30 @@ public class CheckUpdateActivity extends Activity {
      */
     public void checkNewVersion(CheckCallback callback) {
         if (NetUtil.isConnected(CheckUpdateActivity.this)) {
-            HttpRequester.getInstance(HdConstants.APP_UPDATE_URL)
-                    .checkUpdate(new Observer<CheckResponse>() {
-                        @Override
-                        public void onNext(CheckResponse checkResponse) {
-                            Logger.e(checkResponse.getMsg());
-                            switch (checkResponse.getStatus()) {
-                                case "2001":
-                                    callback.isAlreadyLatestVersion();
-                                    break;
-                                case "2002":
-                                    callback.hasNewVersion(checkResponse);
-                                    break;
-                                case "4041":
-                                    break;
-                            }
-                        }
+            HttpRequester.getInstance(HdConstants.APP_UPDATE_URL).checkUpdate()
+                    .doOnNext(checkResponse -> dealCheckResponse(callback, checkResponse))
+                    .doOnError(throwable -> Logger.e(throwable.getMessage()))
+                    .subscribe();
+        }
+    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Logger.e(e.getMessage());
-                        }
-
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+    /**
+     * 处理检查更新响应
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/8 16:05
+     */
+    private void dealCheckResponse(CheckCallback callback, CheckResponse checkResponse) {
+        Logger.e(checkResponse.getMsg());
+        switch (checkResponse.getStatus()) {
+            case "2001":
+                callback.isAlreadyLatestVersion();
+                break;
+            case "2002":
+                callback.hasNewVersion(checkResponse);
+                break;
+            case "4041":
+                break;
         }
     }
 
@@ -129,8 +120,7 @@ public class CheckUpdateActivity extends Activity {
      * @time 2016/11/30 11:45
      */
     private void showDownloadingDialog() {
-        txtProgress = (TextView) View.inflate(CheckUpdateActivity.this,
-                R.layout.dialog_custom_view_txt, null);
+        txtProgress = (TextView) View.inflate(CheckUpdateActivity.this, R.layout.dialog_custom_view_txt, null);
         txtProgress.setText("下载安装包...");
         DialogCenter.showDialog(CheckUpdateActivity.this, txtProgress, new DialogClickListener() {
             @Override
@@ -156,29 +146,17 @@ public class CheckUpdateActivity extends Activity {
                 .download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DownloadStatus>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
-                    }
+                .doOnSubscribe(d -> disposable = d)
+                .doOnNext(status -> updateProgress(status))
+                .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
+                .doOnComplete(() -> Logger.e("doOnComplete"))
+                .subscribe();
+    }
 
-                    @Override
-                    public void onNext(DownloadStatus status) {
-                        txtProgress.setText(String.format("正在下载(%s/%s)",
-                                DataManager.getFormatSize(status.getDownloadSize()),
-                                DataManager.getFormatSize(status.getTotalSize())));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Logger.e("onComplete");
-                    }
-                });
+    private void updateProgress(DownloadStatus status) {
+        txtProgress.setText(String.format("正在下载(%s/%s)",
+                DataManager.getFormatSize(status.getDownloadSize()),
+                DataManager.getFormatSize(status.getTotalSize())));
     }
 
 }

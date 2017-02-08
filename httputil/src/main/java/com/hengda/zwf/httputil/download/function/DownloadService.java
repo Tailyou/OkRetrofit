@@ -7,7 +7,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 
-import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.dbase.DbManager;
 import com.hengda.zwf.httputil.download.entity.DownloadEvent;
 import com.hengda.zwf.httputil.download.entity.DownloadEventFactory;

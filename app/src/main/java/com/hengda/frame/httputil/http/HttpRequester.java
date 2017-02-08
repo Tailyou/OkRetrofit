@@ -76,13 +76,11 @@ public class HttpRequester extends HttpApi {
      * @author 祝文飞（Tailyou）
      * @time 2016/11/12 11:37
      */
-    public void checkUpdate(Observer<CheckResponse> observer) {
-        Observable<CheckResponse> observable = iHttpService.checkUpdate(HdConstants.APP_KEY,
-                HdConstants.APP_SECRET, 3, AppUtil.getVersionCode(HdApplication.mContext),
-                HdAppConfig.getDeviceNo());
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+    public Observable<CheckResponse> checkUpdate() {
+        return iHttpService.checkUpdate(HdConstants.APP_KEY, HdConstants.APP_SECRET, 3,
+                AppUtil.getVersionCode(HdApplication.mContext), HdAppConfig.getDeviceNo())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

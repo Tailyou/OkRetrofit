@@ -1,7 +1,7 @@
 package com.hengda.zwf.httputil.download.entity;
 
 
-import com.hengda.zwf.httputil.download.RxDownload;
+import com.hengda.zwf.httputil.download.function.RxDownload;
 import com.hengda.zwf.httputil.download.dbase.DbManager;
 
 import java.util.Map;
