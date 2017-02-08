@@ -155,7 +155,10 @@ public class CheckUpdateActivity extends Activity {
                 .doOnSubscribe(d -> disposable = d)
                 .doOnNext(status -> updateProgress(status))
                 .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
-                .doOnComplete(() -> installApk(saveName, savePath))
+                .doOnComplete(() -> {
+                    DialogCenter.hideDialog();
+                    installApk(saveName, savePath);
+                })
                 .subscribe();
     }
 
