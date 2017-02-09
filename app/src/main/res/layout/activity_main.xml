@@ -15,18 +15,21 @@
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Check App Update" />
+        android:text="Check App Update"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnNormalDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Down Normal" />
+        android:text="Download Normal"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnServiceDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Down in Service" />
+        android:text="Download Service"
+        android:textAllCaps="false" />
 
 </LinearLayout>

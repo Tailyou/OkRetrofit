@@ -1,6 +1,6 @@
 package com.hengda.frame.httputil.update;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ScrollView;
@@ -16,8 +16,8 @@ import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
 import com.hengda.zwf.commonutil.NetUtil;
 import com.hengda.zwf.hddialog.DialogClickListener;
-import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
 import com.hengda.zwf.httputil.file_download.RxDownload;
+import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
 import com.hengda.zwf.httputil.file_download.function.Utils;
 import com.orhanobut.logger.Logger;
 
@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * 邮箱：tailyou@163.com
  * 描述：
  */
-public class CheckUpdateActivity extends Activity {
+public class CheckUpdateActivity extends AppCompatActivity {
 
     private TextView txtProgress;
     private TextView txtUpdateLog;
