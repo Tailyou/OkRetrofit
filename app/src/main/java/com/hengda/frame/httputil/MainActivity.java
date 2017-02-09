@@ -1,6 +1,7 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -8,21 +9,28 @@ import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.update.CheckCallback;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
+import com.hengda.zwf.commonutil.FileUtils;
 import com.hengda.zwf.httputil.file_download.RxDownload;
 import com.hengda.zwf.httputil.file_download.entity.DownloadEvent;
 import com.hengda.zwf.httputil.file_download.entity.DownloadFlag;
+import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.file_download.function.Utils;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
+
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends CheckUpdateActivity {
 
     RxDownload rxDownload = RxDownload.getInstance().context(this);
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://192.168.10.20/hnbwy/resource/class_img/class_info.zip";
+    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/GuangXiTech_Res/0002.zip";
     String saveName = url.substring(url.lastIndexOf("/") + 1);
     String savePath = HdAppConfig.getDefaultFileDir();
 
@@ -52,9 +60,7 @@ public class MainActivity extends CheckUpdateActivity {
                         .doOnSubscribe(d -> compositeDisposable.add(d))
                         .doOnNext(status -> Logger.e(status.getFormatStatusString()))
                         .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
-                        .doOnComplete(() -> {
-
-                        })
+                        .doOnComplete(() -> unzip())
                         .subscribe());
 
         //在Service中下载
@@ -63,15 +69,32 @@ public class MainActivity extends CheckUpdateActivity {
                         .subscribe());
     }
 
+    private void unzip() {
+        Logger.e("下载完成");
+        String filePath = TextUtils.concat(savePath, saveName).toString();
+        new Thread(() -> {
+            try {
+                Utils.unzip(new File(filePath), savePath, () -> Logger.e("解压完成"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         rxDownload.receiveDownloadStatus(url)
                 .subscribe(downloadEvent -> {
                     Logger.e(downloadEvent.getDownloadStatus().getFormatStatusString());
-                    if (downloadEvent.getFlag() == DownloadFlag.FAILED) {
-                        Throwable throwable = downloadEvent.getError();
-                        Log.w("Error", throwable);
+                    switch (downloadEvent.getFlag()) {
+                        case DownloadFlag.COMPLETED:
+                            unzip();
+                            break;
+                        case DownloadFlag.FAILED:
+                            Throwable throwable = downloadEvent.getError();
+                            Log.w("Error", throwable);
+                            break;
                     }
                 });
     }
