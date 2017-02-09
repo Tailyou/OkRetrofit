@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.download.function;
+package com.hengda.zwf.httputil.file_download.function;
 
 import com.hengda.zwf.httputil.BuildConfig;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

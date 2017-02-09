@@ -1,11 +1,10 @@
-package com.hengda.zwf.httputil.download.entity;
+package com.hengda.zwf.httputil.file_download.entity;
 
-import com.hengda.zwf.httputil.download.function.Constant;
-import com.hengda.zwf.httputil.download.function.DownloadHelper;
-import com.hengda.zwf.httputil.download.function.Utils;
+import com.hengda.zwf.httputil.file_download.function.Constant;
+import com.hengda.zwf.httputil.file_download.function.DownloadHelper;
+import com.hengda.zwf.httputil.file_download.function.Utils;
 
 import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscription;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -18,14 +17,12 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static com.hengda.zwf.httputil.download.function.Utils.log;
+import static com.hengda.zwf.httputil.file_download.function.Utils.log;
 import static java.lang.Thread.currentThread;
 
 public abstract class DownloadType {

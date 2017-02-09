@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.download.function;
+package com.hengda.zwf.httputil.file_download.function;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,11 +7,12 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 
-import com.hengda.zwf.httputil.download.dbase.DbManager;
-import com.hengda.zwf.httputil.download.entity.DownloadEvent;
-import com.hengda.zwf.httputil.download.entity.DownloadEventFactory;
-import com.hengda.zwf.httputil.download.entity.DownloadMission;
-import com.hengda.zwf.httputil.download.entity.DownloadRecord;
+import com.hengda.zwf.httputil.file_download.RxDownload;
+import com.hengda.zwf.httputil.file_download.dbase.DbManager;
+import com.hengda.zwf.httputil.file_download.entity.DownloadEvent;
+import com.hengda.zwf.httputil.file_download.entity.DownloadEventFactory;
+import com.hengda.zwf.httputil.file_download.entity.DownloadMission;
+import com.hengda.zwf.httputil.file_download.entity.DownloadRecord;
 
 import java.io.File;
 import java.util.HashMap;
@@ -24,13 +25,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import io.reactivex.processors.BehaviorProcessor;
 import io.reactivex.processors.FlowableProcessor;
 
-import static com.hengda.zwf.httputil.download.entity.DownloadFlag.CANCELED;
-import static com.hengda.zwf.httputil.download.entity.DownloadFlag.DELETED;
-import static com.hengda.zwf.httputil.download.entity.DownloadFlag.PAUSED;
-import static com.hengda.zwf.httputil.download.entity.DownloadFlag.WAITING;
-import static com.hengda.zwf.httputil.download.function.Constant.DOWNLOAD_URL_EXISTS;
-import static com.hengda.zwf.httputil.download.function.Utils.dispose;
-import static com.hengda.zwf.httputil.download.function.Utils.log;
+import static com.hengda.zwf.httputil.file_download.entity.DownloadFlag.CANCELED;
+import static com.hengda.zwf.httputil.file_download.entity.DownloadFlag.DELETED;
+import static com.hengda.zwf.httputil.file_download.entity.DownloadFlag.PAUSED;
+import static com.hengda.zwf.httputil.file_download.entity.DownloadFlag.WAITING;
+import static com.hengda.zwf.httputil.file_download.function.Constant.DOWNLOAD_URL_EXISTS;
+import static com.hengda.zwf.httputil.file_download.function.Utils.dispose;
+import static com.hengda.zwf.httputil.file_download.function.Utils.log;
 
 
 public class DownloadService extends Service {

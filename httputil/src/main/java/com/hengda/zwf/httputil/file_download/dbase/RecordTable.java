@@ -1,13 +1,13 @@
-package com.hengda.zwf.httputil.download.dbase;
+package com.hengda.zwf.httputil.file_download.dbase;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
 
-import com.hengda.zwf.httputil.download.entity.DownloadFlag;
-import com.hengda.zwf.httputil.download.entity.DownloadMission;
-import com.hengda.zwf.httputil.download.entity.DownloadRecord;
-import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.file_download.entity.DownloadFlag;
+import com.hengda.zwf.httputil.file_download.entity.DownloadMission;
+import com.hengda.zwf.httputil.file_download.entity.DownloadRecord;
+import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
 
 import java.util.Date;
 

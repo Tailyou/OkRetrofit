@@ -8,9 +8,9 @@ import com.hengda.frame.httputil.app.HdApplication;
 import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.zwf.commonutil.AppUtil;
-import com.hengda.zwf.httputil.HttpApi;
-import com.hengda.zwf.httputil.HttpException;
-import com.hengda.zwf.httputil.HttpResponse;
+import com.hengda.zwf.httputil.http_request.HttpApi;
+import com.hengda.zwf.httputil.http_request.HttpException;
+import com.hengda.zwf.httputil.http_request.HttpResponse;
 
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
@@ -83,8 +83,7 @@ public class HttpRequester extends HttpApi {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-    public <T> void doSubscribe(Observable<HttpResponse<T>> observable, Observer<T> observer) {
+    /*public <T> void doSubscribe(Observable<HttpResponse<T>> observable, Observer<T> observer) {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
@@ -95,7 +94,7 @@ public class HttpRequester extends HttpApi {
                     }
                 })
                 .subscribe(observer);
-    }
+    }*/
 
     @Override
     public OkHttpClient initOkHttpClient() {

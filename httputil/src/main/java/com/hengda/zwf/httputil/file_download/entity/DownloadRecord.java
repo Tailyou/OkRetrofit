@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.download.entity;
+package com.hengda.zwf.httputil.file_download.entity;
 
 public class DownloadRecord {
 

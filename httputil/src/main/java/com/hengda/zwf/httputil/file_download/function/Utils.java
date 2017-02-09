@@ -1,11 +1,9 @@
-package com.hengda.zwf.httputil.download.function;
+package com.hengda.zwf.httputil.file_download.function;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
-
-import org.reactivestreams.Publisher;
 
 import java.io.Closeable;
 import java.io.File;
@@ -25,10 +23,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiPredicate;

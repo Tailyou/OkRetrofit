@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil;
+package com.hengda.zwf.httputil.http_request;
 
 public class HttpException extends RuntimeException {
 

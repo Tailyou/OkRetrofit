@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.download.function;
+package com.hengda.zwf.httputil.file_download;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,11 +8,15 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.hengda.zwf.httputil.download.dbase.DbManager;
-import com.hengda.zwf.httputil.download.entity.DownloadEvent;
-import com.hengda.zwf.httputil.download.entity.DownloadMission;
-import com.hengda.zwf.httputil.download.entity.DownloadRecord;
-import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.file_download.dbase.DbManager;
+import com.hengda.zwf.httputil.file_download.entity.DownloadEvent;
+import com.hengda.zwf.httputil.file_download.entity.DownloadMission;
+import com.hengda.zwf.httputil.file_download.entity.DownloadRecord;
+import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.file_download.function.Constant;
+import com.hengda.zwf.httputil.file_download.function.DownloadHelper;
+import com.hengda.zwf.httputil.file_download.function.DownloadService;
+import com.hengda.zwf.httputil.file_download.function.Utils;
 
 import java.io.File;
 import java.io.InterruptedIOException;
@@ -20,11 +24,8 @@ import java.net.SocketException;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.plugins.RxJavaPlugins;
 import retrofit2.Retrofit;
 
@@ -129,6 +130,16 @@ public class RxDownload {
         return mDownloadHelper.downloadDispatcher(url, saveName, savePath);
     }
 
+    /////////////////////////////////////////////////////////
+    ///////////////////以下为在Service中下载//////////////////
+    /////////////////////////////////////////////////////////
+
+    /**
+     * 通过 ServiceDownload 下载
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/9 9:07
+     */
     public Observable<?> serviceDownload(
             @NonNull final String url,
             @NonNull final String saveName,
@@ -136,6 +147,12 @@ public class RxDownload {
         return createGeneralObservable(() -> addDownloadTask(url, saveName, savePath));
     }
 
+    /**
+     * 添加下载任务
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2017/2/9 9:07
+     */
     private void addDownloadTask(@NonNull String url, @NonNull String saveName, @Nullable String savePath) {
         DownloadMission mission = new DownloadMission.Builder()
                 .setRxDownload(RxDownload.this)
@@ -147,7 +164,7 @@ public class RxDownload {
     }
 
     /**
-     * 获取下载状态，ServiceDownload
+     * 获取下载状态、进度
      *
      * @author 祝文飞（Tailyou）
      * @time 2017/2/8 12:21
@@ -164,7 +181,7 @@ public class RxDownload {
     }
 
     /**
-     * 暂停下载，ServiceDownload
+     * 暂停下载
      *
      * @author 祝文飞（Tailyou）
      * @time 2017/2/8 12:23
@@ -174,7 +191,7 @@ public class RxDownload {
     }
 
     /**
-     * 取消下载，ServiceDownload
+     * 取消下载
      *
      * @author 祝文飞（Tailyou）
      * @time 2017/2/8 12:24
@@ -184,7 +201,7 @@ public class RxDownload {
     }
 
     /**
-     * 删除下载，ServiceDownload
+     * 删除下载
      *
      * @author 祝文飞（Tailyou）
      * @time 2017/2/8 12:25

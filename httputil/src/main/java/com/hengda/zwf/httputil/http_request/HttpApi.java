@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil;
+package com.hengda.zwf.httputil.http_request;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -20,8 +20,6 @@ public abstract class HttpApi {
                 .baseUrl(baseUrl)
                 .build();
     }
-
-    public abstract <T> void doSubscribe(Observable<HttpResponse<T>> observable, Observer<T> observer);
 
     public abstract OkHttpClient initOkHttpClient();
 

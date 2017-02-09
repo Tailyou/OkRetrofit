@@ -1,8 +1,8 @@
-package com.hengda.zwf.httputil.download.function;
+package com.hengda.zwf.httputil.file_download.function;
 
 
-import com.hengda.zwf.httputil.download.entity.DownloadRange;
-import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.file_download.entity.DownloadRange;
+import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,13 +21,13 @@ import retrofit2.Response;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 import static android.text.TextUtils.concat;
-import static com.hengda.zwf.httputil.download.function.Constant.CHUNKED_DOWNLOAD_HINT;
-import static com.hengda.zwf.httputil.download.function.Utils.GMTToLong;
-import static com.hengda.zwf.httputil.download.function.Utils.closeQuietly;
-import static com.hengda.zwf.httputil.download.function.Utils.log;
-import static com.hengda.zwf.httputil.download.function.Utils.longToGMT;
-import static com.hengda.zwf.httputil.download.function.Utils.mkdirs;
-import static com.hengda.zwf.httputil.download.function.Utils.notEmpty;
+import static com.hengda.zwf.httputil.file_download.function.Constant.CHUNKED_DOWNLOAD_HINT;
+import static com.hengda.zwf.httputil.file_download.function.Utils.GMTToLong;
+import static com.hengda.zwf.httputil.file_download.function.Utils.closeQuietly;
+import static com.hengda.zwf.httputil.file_download.function.Utils.log;
+import static com.hengda.zwf.httputil.file_download.function.Utils.longToGMT;
+import static com.hengda.zwf.httputil.file_download.function.Utils.mkdirs;
+import static com.hengda.zwf.httputil.file_download.function.Utils.notEmpty;
 import static java.io.File.separator;
 import static java.nio.channels.FileChannel.MapMode.READ_WRITE;
 
