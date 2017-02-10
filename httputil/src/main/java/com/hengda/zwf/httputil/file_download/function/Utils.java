@@ -280,14 +280,4 @@ public class Utils {
         inZip.close();
     }
 
-    /**
-     * 解压完成回调
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2017/2/6 13:46
-     */
-    public interface IUnzipCallback {
-        void call();
-    }
-
 }
