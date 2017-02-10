@@ -1,7 +1,5 @@
 package com.hengda.frame.httputil.http;
 
-import android.text.TextUtils;
-
 import com.hengda.frame.httputil.BuildConfig;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.app.HdApplication;
@@ -9,14 +7,11 @@ import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.httputil.http_request.HttpApi;
-import com.hengda.zwf.httputil.http_request.HttpException;
-import com.hengda.zwf.httputil.http_request.HttpResponse;
 
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -31,7 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class HttpRequester extends HttpApi {
 
-    public static final String HTTP_STATUS_SUCCESS = "1";
     private IHttpService iHttpService;
     private volatile static HttpRequester instance;
     private static Hashtable<String, HttpRequester> mRequestApiTable;
@@ -87,7 +81,7 @@ public class HttpRequester extends HttpApi {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
-                    if (TextUtils.equals(HTTP_STATUS_SUCCESS, response.getStatus())) {
+                    if (TextUtils.equals(HttpResponse.HTTP_STATUS_SUCCESS, response.getStatus())) {
                         return response.getData();
                     } else {
                         throw new HttpException(response.getMsg());
