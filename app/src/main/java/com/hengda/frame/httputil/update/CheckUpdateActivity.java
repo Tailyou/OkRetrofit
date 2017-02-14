@@ -46,7 +46,8 @@ public class CheckUpdateActivity extends AppCompatActivity {
      */
     public void checkNewVersion(CheckCallback callback) {
         if (NetUtil.isConnected(CheckUpdateActivity.this)) {
-            HttpRequester.getInstance(HdConstants.APP_UPDATE_URL).checkUpdate()
+            HttpRequester.getInstance(HdConstants.APP_UPDATE_URL)
+                    .checkUpdate()
                     .doOnNext(checkResponse -> dealCheckResponse(callback, checkResponse))
                     .doOnError(throwable -> Logger.e(throwable.getMessage()))
                     .subscribe();
