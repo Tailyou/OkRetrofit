@@ -6,7 +6,7 @@ import com.hengda.frame.httputil.app.HdApplication;
 import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.zwf.commonutil.AppUtil;
-import com.hengda.zwf.httputil.http_request.HttpApi;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 作者：Tailyou （祝文飞）
@@ -24,8 +25,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * 邮箱：tailyou@163.com
  * 描述：
  */
-public class HttpRequester extends HttpApi {
+public class HttpRequester{
 
+    private Retrofit retrofit;
     private IHttpService iHttpService;
     private volatile static HttpRequester instance;
     private static Hashtable<String, HttpRequester> mRequestApiTable;
@@ -41,7 +43,12 @@ public class HttpRequester extends HttpApi {
      * @time 2016/11/12 11:31
      */
     private HttpRequester(String baseUrl) {
-        super(baseUrl);
+        retrofit = new Retrofit.Builder()
+                .client(initOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(baseUrl)
+                .build();
         iHttpService = retrofit.create(IHttpService.class);
     }
 
@@ -77,20 +84,6 @@ public class HttpRequester extends HttpApi {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    /*public <T> void doSubscribe(Observable<HttpResponse<T>> observable, Observer<T> observer) {
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(response -> {
-                    if (TextUtils.equals(HttpResponse.HTTP_STATUS_SUCCESS, response.getStatus())) {
-                        return response.getData();
-                    } else {
-                        throw new HttpException(response.getMsg());
-                    }
-                })
-                .subscribe(observer);
-    }*/
-
-    @Override
     public OkHttpClient initOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.connectTimeout(10, TimeUnit.SECONDS);

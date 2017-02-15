@@ -6,7 +6,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <service android:name=".file_download.function.DownloadService"/>
+        <service android:name=".function.DownloadService"/>
 
     </application>
 

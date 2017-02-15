@@ -1,6 +1,6 @@
-package com.hengda.zwf.httputil.file_download.entity;
+package com.hengda.zwf.httputil.entity;
 
-import com.hengda.zwf.httputil.file_download.function.DownloadHelper;
+import com.hengda.zwf.httputil.function.DownloadHelper;
 
 public class DownloadTypeFactory {
 

@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.file_download.function;
+package com.hengda.zwf.httputil.function;
 
 /**
  * 作者：祝文飞（Tailyou）

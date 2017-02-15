@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.file_download.function;
+package com.hengda.zwf.httputil.function;
 
 import android.text.TextUtils;
 import android.util.Log;

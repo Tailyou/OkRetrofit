@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.file_download.dbase;
+package com.hengda.zwf.httputil.dbase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

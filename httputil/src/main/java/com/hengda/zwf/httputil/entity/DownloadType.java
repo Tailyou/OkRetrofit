@@ -1,8 +1,8 @@
-package com.hengda.zwf.httputil.file_download.entity;
+package com.hengda.zwf.httputil.entity;
 
-import com.hengda.zwf.httputil.file_download.function.Constant;
-import com.hengda.zwf.httputil.file_download.function.DownloadHelper;
-import com.hengda.zwf.httputil.file_download.function.Utils;
+import com.hengda.zwf.httputil.function.Constant;
+import com.hengda.zwf.httputil.function.DownloadHelper;
+import com.hengda.zwf.httputil.function.Utils;
 
 import org.reactivestreams.Publisher;
 
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static com.hengda.zwf.httputil.file_download.function.Utils.log;
+import static com.hengda.zwf.httputil.function.Utils.log;
 import static java.lang.Thread.currentThread;
 
 public abstract class DownloadType {

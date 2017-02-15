@@ -16,9 +16,9 @@ import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
 import com.hengda.zwf.commonutil.NetUtil;
 import com.hengda.zwf.hddialog.DialogClickListener;
-import com.hengda.zwf.httputil.file_download.RxDownload;
-import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.file_download.function.Utils;
+import com.hengda.zwf.httputil.RxDownload;
+import com.hengda.zwf.httputil.entity.DownloadStatus;
+import com.hengda.zwf.httputil.function.Utils;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

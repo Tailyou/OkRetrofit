@@ -3,27 +3,20 @@ package com.hengda.frame.httputil;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.update.CheckCallback;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
-import com.hengda.zwf.commonutil.FileUtils;
-import com.hengda.zwf.httputil.file_download.RxDownload;
-import com.hengda.zwf.httputil.file_download.entity.DownloadEvent;
-import com.hengda.zwf.httputil.file_download.entity.DownloadFlag;
-import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.file_download.function.Utils;
+import com.hengda.zwf.httputil.RxDownload;
+import com.hengda.zwf.httputil.entity.DownloadFlag;
+import com.hengda.zwf.httputil.function.Utils;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends CheckUpdateActivity {

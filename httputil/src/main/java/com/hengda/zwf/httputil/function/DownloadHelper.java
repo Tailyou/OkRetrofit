@@ -1,10 +1,10 @@
-package com.hengda.zwf.httputil.file_download.function;
+package com.hengda.zwf.httputil.function;
 
 
-import com.hengda.zwf.httputil.file_download.entity.DownloadRange;
-import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.file_download.entity.DownloadType;
-import com.hengda.zwf.httputil.file_download.entity.DownloadTypeFactory;
+import com.hengda.zwf.httputil.entity.DownloadRange;
+import com.hengda.zwf.httputil.entity.DownloadStatus;
+import com.hengda.zwf.httputil.entity.DownloadType;
+import com.hengda.zwf.httputil.entity.DownloadTypeFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,16 +22,16 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.hengda.zwf.httputil.file_download.function.Constant.DOWNLOAD_RECORD_FILE_DAMAGED;
-import static com.hengda.zwf.httputil.file_download.function.Constant.DOWNLOAD_URL_EXISTS;
-import static com.hengda.zwf.httputil.file_download.function.Constant.TEST_RANGE_SUPPORT;
-import static com.hengda.zwf.httputil.file_download.function.Utils.contentLength;
-import static com.hengda.zwf.httputil.file_download.function.Utils.lastModify;
-import static com.hengda.zwf.httputil.file_download.function.Utils.log;
-import static com.hengda.zwf.httputil.file_download.function.Utils.notSupportRange;
-import static com.hengda.zwf.httputil.file_download.function.Utils.requestRangeNotSatisfiable;
-import static com.hengda.zwf.httputil.file_download.function.Utils.serverFileChanged;
-import static com.hengda.zwf.httputil.file_download.function.Utils.serverFileNotChange;
+import static com.hengda.zwf.httputil.function.Constant.DOWNLOAD_RECORD_FILE_DAMAGED;
+import static com.hengda.zwf.httputil.function.Constant.DOWNLOAD_URL_EXISTS;
+import static com.hengda.zwf.httputil.function.Constant.TEST_RANGE_SUPPORT;
+import static com.hengda.zwf.httputil.function.Utils.contentLength;
+import static com.hengda.zwf.httputil.function.Utils.lastModify;
+import static com.hengda.zwf.httputil.function.Utils.log;
+import static com.hengda.zwf.httputil.function.Utils.notSupportRange;
+import static com.hengda.zwf.httputil.function.Utils.requestRangeNotSatisfiable;
+import static com.hengda.zwf.httputil.function.Utils.serverFileChanged;
+import static com.hengda.zwf.httputil.function.Utils.serverFileNotChange;
 
 
 public class DownloadHelper {

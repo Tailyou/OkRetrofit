@@ -1,14 +1,14 @@
-package com.hengda.zwf.httputil.file_download.dbase;
+package com.hengda.zwf.httputil.dbase;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 
-import com.hengda.zwf.httputil.file_download.entity.DownloadFlag;
-import com.hengda.zwf.httputil.file_download.entity.DownloadMission;
-import com.hengda.zwf.httputil.file_download.entity.DownloadRecord;
-import com.hengda.zwf.httputil.file_download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.entity.DownloadFlag;
+import com.hengda.zwf.httputil.entity.DownloadMission;
+import com.hengda.zwf.httputil.entity.DownloadRecord;
+import com.hengda.zwf.httputil.entity.DownloadStatus;
 
 import java.util.ArrayList;
 import java.util.List;

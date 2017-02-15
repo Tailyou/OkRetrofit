@@ -1,9 +1,9 @@
-package com.hengda.zwf.httputil.file_download.entity;
+package com.hengda.zwf.httputil.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.hengda.zwf.httputil.file_download.function.Utils;
+import com.hengda.zwf.httputil.function.Utils;
 
 import java.text.NumberFormat;
 
