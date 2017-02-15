@@ -42,6 +42,32 @@ public class DbManager {
         return singleton;
     }
 
+    private SQLiteDatabase getWritableDatabase() {
+        SQLiteDatabase db = writableDatabase;
+        if (db == null) {
+            synchronized (databaseLock) {
+                db = writableDatabase;
+                if (db == null) {
+                    db = writableDatabase = mDbOpenHelper.getWritableDatabase();
+                }
+            }
+        }
+        return db;
+    }
+
+    private SQLiteDatabase getReadableDatabase() {
+        SQLiteDatabase db = readableDatabase;
+        if (db == null) {
+            synchronized (databaseLock) {
+                db = readableDatabase;
+                if (db == null) {
+                    db = readableDatabase = mDbOpenHelper.getReadableDatabase();
+                }
+            }
+        }
+        return db;
+    }
+
     public boolean recordExists(String url) {
         return !recordNotExists(url);
     }
@@ -104,32 +130,6 @@ public class DbManager {
                 cursor.close();
             }
         }
-    }
-
-    private SQLiteDatabase getWritableDatabase() {
-        SQLiteDatabase db = writableDatabase;
-        if (db == null) {
-            synchronized (databaseLock) {
-                db = writableDatabase;
-                if (db == null) {
-                    db = writableDatabase = mDbOpenHelper.getWritableDatabase();
-                }
-            }
-        }
-        return db;
-    }
-
-    private SQLiteDatabase getReadableDatabase() {
-        SQLiteDatabase db = readableDatabase;
-        if (db == null) {
-            synchronized (databaseLock) {
-                db = readableDatabase;
-                if (db == null) {
-                    db = readableDatabase = mDbOpenHelper.getReadableDatabase();
-                }
-            }
-        }
-        return db;
     }
 
     public void closeDataBase() {
