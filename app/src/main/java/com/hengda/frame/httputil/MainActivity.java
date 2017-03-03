@@ -63,15 +63,7 @@ public class MainActivity extends CheckUpdateActivity {
     }
 
     private void unzip() {
-        Logger.e("下载完成");
-        String filePath = TextUtils.concat(savePath, saveName).toString();
-        new Thread(() -> {
-            try {
-                Utils.unzip(new File(filePath), savePath, () -> Logger.e("解压完成"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        //TODO 解压
     }
 
     @Override
