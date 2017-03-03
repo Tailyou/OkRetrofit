@@ -170,13 +170,15 @@ public class RxDownload {
      * @time 2017/2/8 12:21
      */
     public Observable<DownloadEvent> receiveDownloadStatus(final String url) {
-        return Single.create(e -> {
-            if (!bound) {
-                startBindServiceAndDo(() -> e.onSuccess(object));
-            } else {
-                e.onSuccess(object);
-            }
-        }).flatMapObservable(o -> mDownloadService.processor(RxDownload.this, url).toObservable())
+        return Single
+                .create(e -> {
+                    if (!bound) {
+                        startBindServiceAndDo(() -> e.onSuccess(object));
+                    } else {
+                        e.onSuccess(object);
+                    }
+                })
+                .flatMapObservable(o -> mDownloadService.processor(RxDownload.this, url).toObservable())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
