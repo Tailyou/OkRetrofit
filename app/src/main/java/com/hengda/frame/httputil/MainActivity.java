@@ -70,13 +70,13 @@ public class MainActivity extends CheckUpdateActivity {
                 .doOnSubscribe(d -> {
                     compositeDisposable.add(d);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                    tvDownloadStatus.setText("开始下载，时间：" + sdf.format(new Date()));
+                    tvDownloadStatus.setText("开始下载：" + sdf.format(new Date()));
                 })
                 .doOnNext(status -> tvDownloadPrg.setText("下载进度：" + status.getFormatStatusString()))
                 .doOnError(throwable -> tvDownloadStatus.setText("下载失败"))
                 .doOnComplete(() -> {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                    tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n下载完成：" + sdf.format(new Date()));
+                    tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
                 })
                 .subscribe();
     }
