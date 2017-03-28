@@ -1,7 +1,6 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
@@ -10,10 +9,7 @@ import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
 import com.hengda.zwf.httputil.entity.DownloadFlag;
-import com.hengda.zwf.httputil.function.Utils;
 import com.orhanobut.logger.Logger;
-
-import java.io.File;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,8 +19,8 @@ public class MainActivity extends CheckUpdateActivity {
 
     RxDownload rxDownload = RxDownload.getInstance().context(this);
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/GuangXiTech_Res/0002.zip";
-    String saveName = url.substring(url.lastIndexOf("/") + 1);
+    String url = "http://downali.game.uc.cn/s/1/9/20170103112151d02a45_MY-1.110.0_uc_platform2.apk";
+    String saveName = "梦幻西游.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
 
     @Override
