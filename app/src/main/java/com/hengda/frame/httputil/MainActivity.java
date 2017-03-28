@@ -1,15 +1,15 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.frame.httputil.update.CheckCallback;
-import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
-import com.hengda.zwf.httputil.entity.DownloadFlag;
 import com.orhanobut.logger.Logger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,18 +17,20 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends CheckUpdateActivity {
 
-    RxDownload rxDownload = RxDownload.getInstance().context(this);
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     String url = "http://downali.game.uc.cn/s/1/9/20170103112151d02a45_MY-1.110.0_uc_platform2.apk";
     String saveName = "梦幻西游.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
+    TextView tvDownloadStatus;
+    TextView tvDownloadPrg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //检查更新
+        tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
+        tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
+        /*//检查更新
         findViewById(R.id.btnUpdate).setOnClickListener(view -> checkNewVersion(new CheckCallback() {
             @Override
             public void hasNewVersion(CheckResponse checkResponse) {
@@ -39,30 +41,47 @@ public class MainActivity extends CheckUpdateActivity {
             public void isAlreadyLatestVersion() {
                 showVersionInfoDialog();
             }
-        }));
+        }));*/
 
         //正常下载
-        findViewById(R.id.btnNormalDown).setOnClickListener(view ->
-                rxDownload.download(url, saveName, savePath)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> compositeDisposable.add(d))
-                        .doOnNext(status -> Logger.e(status.getFormatStatusString()))
-                        .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
-                        .doOnComplete(() -> unzip())
-                        .subscribe());
+        findViewById(R.id.btnNormalDown).setOnClickListener(view -> download());
 
-        //在Service中下载
-        findViewById(R.id.btnServiceDown).setOnClickListener(view ->
-                rxDownload.serviceDownload(url, saveName, savePath)
-                        .subscribe());
-    }
-
-    private void unzip() {
-        //TODO 解压
+        /*//在Service中下载
+        findViewById(R.id.btnServiceDown).setOnClickListener(view -> {
+                    File root = new File(Environment.getExternalStorageDirectory() + File.separator + "myDir" + File.separator);
+                    root.mkdirs();
+                    rxDownload.serviceDownload(url, saveName, savePath).subscribe();
+                }
+        );*/
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消下载
+        compositeDisposable.dispose();
+    }
+
+    private void download() {
+        RxDownload.getInstance().context(this)
+                .download(url, saveName, savePath)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> {
+                    compositeDisposable.add(d);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                    tvDownloadStatus.setText("开始下载，时间：" + sdf.format(new Date()));
+                })
+                .doOnNext(status -> tvDownloadPrg.setText("下载进度：" + status.getFormatStatusString()))
+                .doOnError(throwable -> tvDownloadStatus.setText("下载失败"))
+                .doOnComplete(() -> {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                    tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n下载完成：" + sdf.format(new Date()));
+                })
+                .subscribe();
+    }
+
+    /*@Override
     protected void onResume() {
         super.onResume();
         rxDownload.receiveDownloadStatus(url)
@@ -84,13 +103,6 @@ public class MainActivity extends CheckUpdateActivity {
     protected void onPause() {
         super.onPause();
         rxDownload.pauseServiceDownload(url).subscribe();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //取消下载
-        compositeDisposable.dispose();
-    }
+    }*/
 
 }

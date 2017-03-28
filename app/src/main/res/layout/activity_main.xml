@@ -16,13 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Check App Update"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnNormalDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Download Normal"
+        android:text="Download"
         android:textAllCaps="false" />
 
     <Button
@@ -30,6 +31,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Download Service"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvDownloadStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvDownloadPrg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
