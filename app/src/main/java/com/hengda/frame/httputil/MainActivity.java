@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
-import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
