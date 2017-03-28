@@ -63,6 +63,8 @@ public class MainActivity extends CheckUpdateActivity {
 
     private void download() {
         RxDownload.getInstance().context(this)
+                .maxThread(9)
+                .maxRetryCount(3)
                 .download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
