@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends CheckUpdateActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://downali.game.uc.cn/s/1/9/20170103112151d02a45_MY-1.110.0_uc_platform2.apk";
+    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HD-SYBWG-RES/ShenYang_Res.zip";
     String saveName = "梦幻西游.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
@@ -62,9 +62,7 @@ public class MainActivity extends CheckUpdateActivity {
     }
 
     private void download() {
-        RxDownload.getInstance().context(this)
-                .maxThread(9)
-                .maxRetryCount(3)
+        RxDownload.getInstance().context(this).maxThread(16).maxRetryCount(3)
                 .download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
