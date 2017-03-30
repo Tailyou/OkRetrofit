@@ -7,6 +7,7 @@ import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -76,6 +77,8 @@ public class MainActivity extends CheckUpdateActivity {
                 .doOnComplete(() -> {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
                     tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
+                    File file = new File(savePath, saveName);
+                    file.delete();
                 })
                 .subscribe();
     }
