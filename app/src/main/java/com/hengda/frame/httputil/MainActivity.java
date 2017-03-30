@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends CheckUpdateActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HD-SYBWG-RES/ShenYang_Res.zip";
+    String url = "http://downali.game.uc.cn/s/1/9/20170103112151d02a45_MY-1.110.0_uc_platform2.apk";
     String saveName = "梦幻西游.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
