@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends CheckUpdateActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://downali.game.uc.cn/s/1/9/20170103112151d02a45_MY-1.110.0_uc_platform2.apk";
+    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HuLuDao_Res/CHINESE.zip";
     String saveName = "梦幻西游.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
@@ -69,8 +69,9 @@ public class MainActivity extends CheckUpdateActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> {
                     compositeDisposable.add(d);
+                    tvDownloadStatus.setText("下载地址：" + url + "\n");
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                    tvDownloadStatus.setText("开始下载：" + sdf.format(new Date()));
+                    tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n开始下载：" + sdf.format(new Date()));
                 })
                 .doOnNext(status -> tvDownloadPrg.setText("下载进度：" + status.getFormatStatusString()))
                 .doOnError(throwable -> tvDownloadStatus.setText("下载失败"))
