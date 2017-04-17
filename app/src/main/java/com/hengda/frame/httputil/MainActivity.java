@@ -1,11 +1,17 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.update.CheckCallback;
+import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
+import com.hengda.zwf.httputil.entity.DownloadFlag;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -23,36 +29,52 @@ public class MainActivity extends CheckUpdateActivity {
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
     TextView tvDownloadPrg;
+    RxDownload rxDownload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rxDownload = RxDownload.getInstance().context(this).maxThread(16).maxRetryCount(3);
+
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
-        /*//检查更新
-        findViewById(R.id.btnUpdate).setOnClickListener(view -> checkNewVersion(new CheckCallback() {
+        //检查更新
+        findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void hasNewVersion(CheckResponse checkResponse) {
-                showHasNewVersionDialog(checkResponse);
-            }
+            public void onClick(View view) {
+                checkNewVersion(new CheckCallback() {
+                    @Override
+                    public void hasNewVersion(CheckResponse checkResponse) {
+                        showHasNewVersionDialog(checkResponse);
+                    }
 
-            @Override
-            public void isAlreadyLatestVersion() {
-                showVersionInfoDialog();
+                    @Override
+                    public void isAlreadyLatestVersion() {
+                        showVersionInfoDialog();
+                    }
+                });
             }
-        }));*/
+        });
 
         //正常下载
-        findViewById(R.id.btnNormalDown).setOnClickListener(view -> download());
+        findViewById(R.id.btnNormalDown).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                download();
+            }
+        });
 
-        /*//在Service中下载
-        findViewById(R.id.btnServiceDown).setOnClickListener(view -> {
-                    File root = new File(Environment.getExternalStorageDirectory() + File.separator + "myDir" + File.separator);
-                    root.mkdirs();
-                    rxDownload.serviceDownload(url, saveName, savePath).subscribe();
-                }
-        );*/
+        //在Service中下载
+        findViewById(R.id.btnServiceDown).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File root = new File(Environment.getExternalStorageDirectory() + File.separator + "myDir" + File.separator);
+                root.mkdirs();
+                rxDownload.serviceDownload(url, saveName, savePath).subscribe();
+            }
+        });
     }
 
     @Override
@@ -63,8 +85,7 @@ public class MainActivity extends CheckUpdateActivity {
     }
 
     private void download() {
-        RxDownload.getInstance().context(this).maxThread(16).maxRetryCount(3)
-                .download(url, saveName, savePath)
+        rxDownload.download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> {
@@ -84,19 +105,17 @@ public class MainActivity extends CheckUpdateActivity {
                 .subscribe();
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
         rxDownload.receiveDownloadStatus(url)
                 .subscribe(downloadEvent -> {
-                    Logger.e(downloadEvent.getDownloadStatus().getFormatStatusString());
                     switch (downloadEvent.getFlag()) {
                         case DownloadFlag.COMPLETED:
-                            unzip();
+                            Log.e("download status", "COMPLETED");
                             break;
                         case DownloadFlag.FAILED:
-                            Throwable throwable = downloadEvent.getError();
-                            Log.w("Error", throwable);
+                            Log.e("download status", "FAILED");
                             break;
                     }
                 });
@@ -106,6 +125,6 @@ public class MainActivity extends CheckUpdateActivity {
     protected void onPause() {
         super.onPause();
         rxDownload.pauseServiceDownload(url).subscribe();
-    }*/
+    }
 
 }
