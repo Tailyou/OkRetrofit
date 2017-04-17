@@ -19,7 +19,7 @@ public class MainActivity extends CheckUpdateActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HuLuDao_Res/CHINESE.zip";
-    String saveName = "梦幻西游.apk";
+    String saveName = "CHINESE.zip";
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
     TextView tvDownloadPrg;
