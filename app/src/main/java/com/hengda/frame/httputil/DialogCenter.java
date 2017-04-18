@@ -27,7 +27,7 @@ public class DialogCenter {
      */
     public static void showDialog(Context context,
                                   View view,
-                                  DialogClickListener dialogClickListener,
+                                  final DialogClickListener dialogClickListener,
                                   String... txt) {
         hideDialog();
         hDialogBuilder = new HDialogBuilder(context);
@@ -37,12 +37,22 @@ public class DialogCenter {
                 .dlgColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setCustomView(view)
                 .pBtnText(txt[1])
-                .pBtnClickListener(v -> dialogClickListener.p())
+                .pBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogClickListener.p();
+                    }
+                })
                 .cancelable(false);
         if (txt.length == 3) {
             hDialogBuilder
                     .nBtnText(txt[2])
-                    .nBtnClickListener(v -> dialogClickListener.n());
+                    .nBtnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogClickListener.n();
+                        }
+                    });
         }
         hDialogBuilder.show();
     }
@@ -55,7 +65,7 @@ public class DialogCenter {
      * @param txt
      */
     public static void showDialog(Context context,
-                                  DialogClickListener dialogClickListener,
+                                  final DialogClickListener dialogClickListener,
                                   String... txt) {
         hideDialog();
         hDialogBuilder = new HDialogBuilder(context);
@@ -65,12 +75,22 @@ public class DialogCenter {
                 .withTitle(txt[0])
                 .withMsg(txt[1])
                 .pBtnText(txt[2])
-                .pBtnClickListener(v -> dialogClickListener.p())
+                .pBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogClickListener.p();
+                    }
+                })
                 .cancelable(false);
         if (txt.length == 4) {
             hDialogBuilder
                     .nBtnText(txt[3])
-                    .nBtnClickListener(v -> dialogClickListener.n());
+                    .nBtnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogClickListener.n();
+                        }
+                    });
         }
         hDialogBuilder.show();
     }

@@ -17,16 +17,10 @@
         android:layout_height="wrap_content"
         android:text="Check App Update"
         android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/btnServiceDown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Download Service"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnNormalDown"
+        android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Download"

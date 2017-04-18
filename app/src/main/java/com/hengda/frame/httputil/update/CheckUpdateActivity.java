@@ -23,6 +23,8 @@ import com.orhanobut.logger.Logger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -44,12 +46,22 @@ public class CheckUpdateActivity extends AppCompatActivity {
      * @author 祝文飞（Tailyou）
      * @time 2016/11/30 11:44
      */
-    public void checkNewVersion(CheckCallback callback) {
+    public void checkNewVersion(final CheckCallback callback) {
         if (NetUtil.isConnected(CheckUpdateActivity.this)) {
             HttpRequester.getInstance(HdConstants.APP_UPDATE_URL)
                     .checkUpdate()
-                    .doOnNext(checkResponse -> dealCheckResponse(callback, checkResponse))
-                    .doOnError(throwable -> Logger.e(throwable.getMessage()))
+                    .doOnNext(new Consumer<CheckResponse>() {
+                        @Override
+                        public void accept(CheckResponse checkResponse) throws Exception {
+                            dealCheckResponse(callback, checkResponse);
+                        }
+                    })
+                    .doOnError(new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Logger.e(throwable.getMessage());
+                        }
+                    })
                     .subscribe();
         }
     }
@@ -141,19 +153,37 @@ public class CheckUpdateActivity extends AppCompatActivity {
      */
     private void loadAndInstall(CheckResponse checkResponse) {
         String url = checkResponse.getVersionInfo().getVersionUrl();
-        String saveName = url.substring(url.lastIndexOf("/") + 1);
-        String savePath = HdAppConfig.getDefaultFileDir();
+        final String saveName = url.substring(url.lastIndexOf("/") + 1);
+        final String savePath = HdAppConfig.getDefaultFileDir();
 
         RxDownload.getInstance()
                 .download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(d -> disposable = d)
-                .doOnNext(status -> updateProgress(status))
-                .doOnError(throwable -> Logger.e("下载失败：" + throwable.getMessage()))
-                .doOnComplete(() -> {
-                    DialogCenter.hideDialog();
-                    installApk(saveName, savePath);
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable d) throws Exception {
+                        disposable = d;
+                    }
+                })
+                .doOnNext(new Consumer<DownloadStatus>() {
+                    @Override
+                    public void accept(DownloadStatus status) throws Exception {
+                        updateProgress(status);
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Logger.e("下载失败：" + throwable.getMessage());
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        DialogCenter.hideDialog();
+                        installApk(saveName, savePath);
+                    }
                 })
                 .subscribe();
     }

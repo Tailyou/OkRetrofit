@@ -1,8 +1,6 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,7 +9,7 @@ import com.hengda.frame.httputil.update.CheckCallback;
 import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.RxDownload;
-import com.hengda.zwf.httputil.entity.DownloadFlag;
+import com.hengda.zwf.httputil.entity.DownloadStatus;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -19,6 +17,9 @@ import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends CheckUpdateActivity {
@@ -59,22 +60,13 @@ public class MainActivity extends CheckUpdateActivity {
         });
 
         //正常下载
-        findViewById(R.id.btnNormalDown).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnDownload).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 download();
             }
         });
 
-        //在Service中下载
-        findViewById(R.id.btnServiceDown).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                File root = new File(Environment.getExternalStorageDirectory() + File.separator + "myDir" + File.separator);
-                root.mkdirs();
-                rxDownload.serviceDownload(url, saveName, savePath).subscribe();
-            }
-        });
     }
 
     @Override
@@ -88,43 +80,37 @@ public class MainActivity extends CheckUpdateActivity {
         rxDownload.download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(d -> {
-                    compositeDisposable.add(d);
-                    tvDownloadStatus.setText("下载地址：" + url + "\n");
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                    tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n开始下载：" + sdf.format(new Date()));
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        compositeDisposable.add(disposable);
+                        tvDownloadStatus.setText("下载地址：" + url + "\n");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                        tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n开始下载：" + sdf.format(new Date()));
+                    }
                 })
-                .doOnNext(status -> tvDownloadPrg.setText("下载进度：" + status.getFormatStatusString()))
-                .doOnError(throwable -> tvDownloadStatus.setText("下载失败"))
-                .doOnComplete(() -> {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                    tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
-                    File file = new File(savePath, saveName);
-                    file.delete();
+                .doOnNext(new Consumer<DownloadStatus>() {
+                    @Override
+                    public void accept(DownloadStatus downloadStatus) throws Exception {
+                        tvDownloadPrg.setText("下载进度：" + downloadStatus.getFormatStatusString());
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        tvDownloadStatus.setText("下载失败:" + throwable.getMessage());
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                        tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
+                        File file = new File(savePath, saveName);
+                        file.delete();
+                    }
                 })
                 .subscribe();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rxDownload.receiveDownloadStatus(url)
-                .subscribe(downloadEvent -> {
-                    switch (downloadEvent.getFlag()) {
-                        case DownloadFlag.COMPLETED:
-                            Log.e("download status", "COMPLETED");
-                            break;
-                        case DownloadFlag.FAILED:
-                            Log.e("download status", "FAILED");
-                            break;
-                    }
-                });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        rxDownload.pauseServiceDownload(url).subscribe();
     }
 
 }
