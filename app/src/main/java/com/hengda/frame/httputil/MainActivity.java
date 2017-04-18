@@ -30,17 +30,15 @@ public class MainActivity extends CheckUpdateActivity {
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
     TextView tvDownloadPrg;
-    RxDownload rxDownload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rxDownload = RxDownload.getInstance().context(this).maxThread(16).maxRetryCount(3);
-
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
+
         //检查更新
         findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +75,8 @@ public class MainActivity extends CheckUpdateActivity {
     }
 
     private void download() {
-        rxDownload.download(url, saveName, savePath)
+        RxDownload.getInstance().context(this).maxThread(16).maxRetryCount(3)
+                .download(url, saveName, savePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {
