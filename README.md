@@ -17,6 +17,7 @@ HttpUtil是一个二合一的网络功能库，包含文件下载和网络请求
 
 ## 二、版本
 已在多个项目中使用，且已上传jCenter，最新版本2.0.0，直接在gradle中添加即可。
+
 compile 'com.hengda.zwf:HttpUtil:2.0.0'
 
 ## 三、使用
