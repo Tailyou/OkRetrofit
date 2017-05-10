@@ -1,6 +1,7 @@
 package com.hengda.frame.httputil;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -8,10 +9,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.http.RetrofitHelper;
-import com.hengda.zwf.httputil.update.UpdateCallback;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.update.UpdateResponse;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -25,7 +24,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends UpdateActivity {
+public class MainActivity extends AppCompatActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HuLuDao_Res/CHINESE.zip";
@@ -58,24 +57,6 @@ public class MainActivity extends UpdateActivity {
                                 Logger.e(throwable.getMessage());
                             }
                         });
-            }
-        });
-
-        //检查更新
-        findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkNewVersion(new UpdateCallback() {
-                    @Override
-                    public void hasNewVersion(UpdateResponse response) {
-                        showHasNewVersionDialog(response);
-                    }
-
-                    @Override
-                    public void isAlreadyLatestVersion() {
-                        showVersionInfoDialog();
-                    }
-                });
             }
         });
 
