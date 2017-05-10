@@ -87,8 +87,7 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2017/1/3 11:57
      */
     public Observable<DataBean> loadDatas() {
-        return httpApis.loadDatas()
-                .compose(rxSchedulerHelper()).compose(handleResult());
+        return httpApis.loadDatas().compose(rxSchedulerHelper()).compose(handleResult());
     }
 
 }
