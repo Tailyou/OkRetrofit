@@ -12,18 +12,24 @@
     tools:context="com.hengda.frame.httputil.MainActivity">
 
     <Button
+        android:id="@+id/btnDeviceNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请求设备号"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AppUpdate"
-        android:textAllCaps="false" />
+        android:text="App检查更新"
         android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Download"
+        android:text="资源下载"
         android:textAllCaps="false" />
 
     <TextView

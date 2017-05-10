@@ -23,7 +23,7 @@ public interface HttpApis {
      * @return
      */
     @FormUrlEncoded
-    @POST("index.php?g=mapi&m=positions&a=request_deviceno")
+    @POST("index.php?a=request_deviceno")
     Observable<HttpResponse<String>> reqDeviceNo(@Field("app_kind") int app_kind);
 
 }

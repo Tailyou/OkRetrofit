@@ -3,13 +3,17 @@ package com.hengda.frame.httputil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.app.HdConstants;
+import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.frame.httputil.update.CheckCallback;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
 import com.hengda.zwf.httputil.httpload.RxDownload;
 import com.hengda.zwf.httputil.httpload.entity.DownloadStatus;
 import com.hengda.zwf.httputil.httprequest.UpdateResponse;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -37,6 +41,26 @@ public class MainActivity extends CheckUpdateActivity {
         setContentView(R.layout.activity_main);
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
+
+        //检查更新
+        findViewById(R.id.btnDeviceNo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitHelper.getInstance()
+                        .reqDeviceNo(HdConstants.APP_KIND)
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) throws Exception {
+                                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Logger.e(throwable.getMessage());
+                            }
+                        });
+            }
+        });
 
         //检查更新
         findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {

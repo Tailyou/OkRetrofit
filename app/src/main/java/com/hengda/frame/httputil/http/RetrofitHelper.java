@@ -64,7 +64,7 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2016/11/12 11:38
      */
     public static String setupBaseHttpUrl() {
-        return "http://" + HdAppConfig.getDefaultIpPort() + "/hnbwy/";
+        return "http://" + HdAppConfig.getDefaultIpPort() + "/tbys/sxbwg/";
     }
 
     /**
