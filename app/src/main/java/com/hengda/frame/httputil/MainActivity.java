@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.zwf.httputil.update.UpdateCallback;
-import com.hengda.frame.httputil.http.UpdateActivity;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
 import com.hengda.zwf.httputil.update.UpdateResponse;

@@ -1,4 +1,4 @@
-package com.hengda.frame.httputil.http;
+package com.hengda.frame.httputil;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -6,11 +6,10 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hengda.frame.httputil.DialogCenter;
-import com.hengda.frame.httputil.R;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.app.HdApplication;
 import com.hengda.frame.httputil.app.HdConstants;
+import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
