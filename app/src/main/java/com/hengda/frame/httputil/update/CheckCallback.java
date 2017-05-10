@@ -1,5 +1,7 @@
 package com.hengda.frame.httputil.update;
 
+import com.hengda.zwf.httputil.httprequest.UpdateResponse;
+
 /**
  * 作者：Tailyou （祝文飞）
  * 时间：2016/10/9 10:36
@@ -8,7 +10,7 @@ package com.hengda.frame.httputil.update;
  */
 public class CheckCallback {
 
-    public void hasNewVersion(CheckResponse checkResponse){}
+    public void hasNewVersion(UpdateResponse response){}
 
     public void isAlreadyLatestVersion(){}
 

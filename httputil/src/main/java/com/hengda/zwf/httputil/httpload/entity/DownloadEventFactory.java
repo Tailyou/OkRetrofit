@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.entity;
+package com.hengda.zwf.httputil.httpload.entity;
 
 import android.support.annotation.NonNull;
 

@@ -1,8 +1,8 @@
-package com.hengda.zwf.httputil.entity;
+package com.hengda.zwf.httputil.httpload.entity;
 
 
-import com.hengda.zwf.httputil.RxDownload;
-import com.hengda.zwf.httputil.dbase.DbManager;
+import com.hengda.zwf.httputil.httpload.RxDownload;
+import com.hengda.zwf.httputil.httpload.dbase.DbManager;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;

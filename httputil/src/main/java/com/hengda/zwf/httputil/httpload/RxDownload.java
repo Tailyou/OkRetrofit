@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil;
+package com.hengda.zwf.httputil.httpload;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,15 +8,15 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.hengda.zwf.httputil.dbase.DbManager;
-import com.hengda.zwf.httputil.entity.DownloadEvent;
-import com.hengda.zwf.httputil.entity.DownloadMission;
-import com.hengda.zwf.httputil.entity.DownloadRecord;
-import com.hengda.zwf.httputil.entity.DownloadStatus;
-import com.hengda.zwf.httputil.function.Constant;
-import com.hengda.zwf.httputil.function.DownloadHelper;
-import com.hengda.zwf.httputil.function.DownloadService;
-import com.hengda.zwf.httputil.function.Utils;
+import com.hengda.zwf.httputil.httpload.dbase.DbManager;
+import com.hengda.zwf.httputil.httpload.entity.DownloadEvent;
+import com.hengda.zwf.httputil.httpload.entity.DownloadMission;
+import com.hengda.zwf.httputil.httpload.entity.DownloadRecord;
+import com.hengda.zwf.httputil.httpload.entity.DownloadStatus;
+import com.hengda.zwf.httputil.httpload.function.Constant;
+import com.hengda.zwf.httputil.httpload.function.DownloadHelper;
+import com.hengda.zwf.httputil.httpload.function.DownloadService;
+import com.hengda.zwf.httputil.httpload.function.Utils;
 
 import java.io.File;
 import java.io.InterruptedIOException;

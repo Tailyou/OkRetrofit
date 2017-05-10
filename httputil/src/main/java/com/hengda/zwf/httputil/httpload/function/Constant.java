@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.function;
+package com.hengda.zwf.httputil.httpload.function;
 
 public final class Constant {
 

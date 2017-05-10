@@ -33,14 +33,20 @@ public class HdAppConfig {
     public static final String POWER_PERMI = "POWER_PERMI";//禁止关机下是否获取到关机权限：0无，1有
     public static final String IP_PORT = "IP_PORT";//服务器IP和端口
 
+    public static void setDefaultIpPort(String ipPort) {
+        appConfig.setPrefString(IP_PORT, ipPort);
+    }
+
+    public static String getDefaultIpPort() {
+        return appConfig.getPrefString(IP_PORT, HdConstants.DEFAULT_IP_PORT);
+    }
+
     public static void setDeviceNo(String deviceNo) {
-        FileUtils.writeStringToFile(SDCardUtil.getSDCardPath() + "DeviceNo.txt",
-                deviceNo, false);
+        FileUtils.writeStringToFile(SDCardUtil.getSDCardPath() + "DeviceNo.txt", deviceNo, false);
     }
 
     public static String getDeviceNo() {
-        StringBuilder deviceNo = FileUtils.readStringFromFile(SDCardUtil.getSDCardPath()
-                + "DeviceNo.txt", "UTF-8");
+        StringBuilder deviceNo = FileUtils.readStringFromFile(SDCardUtil.getSDCardPath() + "DeviceNo.txt", "UTF-8");
         return TextUtils.isEmpty(deviceNo) ? HdConstants.DEFAULT_DEVICE_NO : deviceNo.toString();
     }
 

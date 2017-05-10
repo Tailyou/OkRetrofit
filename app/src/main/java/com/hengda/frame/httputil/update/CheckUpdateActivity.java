@@ -9,16 +9,18 @@ import android.widget.TextView;
 import com.hengda.frame.httputil.DialogCenter;
 import com.hengda.frame.httputil.R;
 import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.app.HdApplication;
 import com.hengda.frame.httputil.app.HdConstants;
-import com.hengda.frame.httputil.http.HttpRequester;
+import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.commonutil.DataManager;
 import com.hengda.zwf.commonutil.HdTool;
 import com.hengda.zwf.commonutil.NetUtil;
 import com.hengda.zwf.hddialog.DialogClickListener;
-import com.hengda.zwf.httputil.RxDownload;
-import com.hengda.zwf.httputil.entity.DownloadStatus;
-import com.hengda.zwf.httputil.function.Utils;
+import com.hengda.zwf.httputil.httpload.RxDownload;
+import com.hengda.zwf.httputil.httpload.entity.DownloadStatus;
+import com.hengda.zwf.httputil.httpload.function.Utils;
+import com.hengda.zwf.httputil.httprequest.UpdateResponse;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,11 +50,13 @@ public class CheckUpdateActivity extends AppCompatActivity {
      */
     public void checkNewVersion(final CheckCallback callback) {
         if (NetUtil.isConnected(CheckUpdateActivity.this)) {
-            HttpRequester.getInstance(HdConstants.APP_UPDATE_URL)
-                    .checkUpdate()
-                    .doOnNext(new Consumer<CheckResponse>() {
+            int versionCode = AppUtil.getVersionCode(HdApplication.mContext);
+            String deviceNo = HdAppConfig.getDeviceNo();
+            RetrofitHelper.getInstance()
+                    .checkUpdate(HdConstants.APP_KEY, HdConstants.APP_SECRET, HdConstants.APP_KIND, versionCode, deviceNo)
+                    .doOnNext(new Consumer<UpdateResponse>() {
                         @Override
-                        public void accept(CheckResponse checkResponse) throws Exception {
+                        public void accept(UpdateResponse checkResponse) throws Exception {
                             dealCheckResponse(callback, checkResponse);
                         }
                     })
@@ -72,7 +76,7 @@ public class CheckUpdateActivity extends AppCompatActivity {
      * @author 祝文飞（Tailyou）
      * @time 2017/2/8 16:05
      */
-    private void dealCheckResponse(CheckCallback callback, CheckResponse checkResponse) {
+    private void dealCheckResponse(CheckCallback callback, UpdateResponse checkResponse) {
         Logger.e(checkResponse.getMsg());
         switch (checkResponse.getStatus()) {
             case "2001":
@@ -107,7 +111,7 @@ public class CheckUpdateActivity extends AppCompatActivity {
      * @author 祝文飞（Tailyou）
      * @time 2016/11/30 11:44
      */
-    public void showHasNewVersionDialog(final CheckResponse checkResponse) {
+    public void showHasNewVersionDialog(final UpdateResponse checkResponse) {
         ScrollView scrollView = (ScrollView) View.inflate(CheckUpdateActivity.this,
                 R.layout.dialog_custom_view_scroll_txt, null);
         txtUpdateLog = HdTool.getView(scrollView, R.id.tvUpdateLog);
@@ -151,7 +155,7 @@ public class CheckUpdateActivity extends AppCompatActivity {
      * @author 祝文飞（Tailyou）
      * @time 2016/11/30 11:47
      */
-    private void loadAndInstall(CheckResponse checkResponse) {
+    private void loadAndInstall(UpdateResponse checkResponse) {
         String url = checkResponse.getVersionInfo().getVersionUrl();
         final String saveName = url.substring(url.lastIndexOf("/") + 1);
         final String savePath = HdAppConfig.getDefaultFileDir();

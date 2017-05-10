@@ -1,29 +1,15 @@
-package com.hengda.frame.httputil.update;
+package com.hengda.zwf.httputil.httprequest;
 
 /**
  * 作者：Tailyou （祝文飞）
  * 时间：2016/7/4 13:18
  * 邮箱：tailyou@163.com
- * 描述：
+ * 描述：App检查更新返回
  */
-public class CheckResponse {
-
-    /**
-     * status : 2002
-     * msg : 有新的版本
-     * versionInfo : {"versionNo":"1.0.1","versionName":"第一版","versionUrl":"http://www.baidu
-     * .com","versionLog":"此版本已过期，为保证功能的使用，请升级成最新版本!"}
-     */
+public class UpdateResponse {
 
     private String status;
     private String msg;
-    /**
-     * versionNo : 1.0.1
-     * versionName : 第一版
-     * versionUrl : http://www.baidu.com
-     * versionLog : 此版本已过期，为保证功能的使用，请升级成最新版本!
-     */
-
     private VersionInfoEntity versionInfo;
 
     public String getStatus() {
@@ -51,6 +37,7 @@ public class CheckResponse {
     }
 
     public static class VersionInfoEntity {
+
         private String versionNo;
         private String versionName;
         private String versionUrl;
@@ -87,6 +74,7 @@ public class CheckResponse {
         public void setVersionLog(String versionLog) {
             this.versionLog = versionLog;
         }
+
     }
 
 }

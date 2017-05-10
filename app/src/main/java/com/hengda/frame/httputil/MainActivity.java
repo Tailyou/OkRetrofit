@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.update.CheckCallback;
-import com.hengda.frame.httputil.update.CheckResponse;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
-import com.hengda.zwf.httputil.RxDownload;
-import com.hengda.zwf.httputil.entity.DownloadStatus;
+import com.hengda.zwf.httputil.httpload.RxDownload;
+import com.hengda.zwf.httputil.httpload.entity.DownloadStatus;
+import com.hengda.zwf.httputil.httprequest.UpdateResponse;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -44,8 +44,8 @@ public class MainActivity extends CheckUpdateActivity {
             public void onClick(View view) {
                 checkNewVersion(new CheckCallback() {
                     @Override
-                    public void hasNewVersion(CheckResponse checkResponse) {
-                        showHasNewVersionDialog(checkResponse);
+                    public void hasNewVersion(UpdateResponse response) {
+                        showHasNewVersionDialog(response);
                     }
 
                     @Override
