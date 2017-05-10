@@ -2,7 +2,7 @@ package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.DataBean;
 import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.zwf.httputil.httprequest.BaseRetrofit;
+import com.hengda.zwf.httputil.request.BaseRetrofit;
 
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;

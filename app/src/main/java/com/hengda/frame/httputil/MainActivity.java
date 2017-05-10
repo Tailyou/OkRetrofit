@@ -8,11 +8,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.http.RetrofitHelper;
-import com.hengda.frame.httputil.update.CheckCallback;
-import com.hengda.frame.httputil.update.CheckUpdateActivity;
-import com.hengda.zwf.httputil.httpload.RxDownload;
-import com.hengda.zwf.httputil.httpload.entity.DownloadStatus;
-import com.hengda.zwf.httputil.httprequest.UpdateResponse;
+import com.hengda.zwf.httputil.update.UpdateCallback;
+import com.hengda.frame.httputil.http.UpdateActivity;
+import com.hengda.zwf.httputil.download.RxDownload;
+import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.update.UpdateResponse;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends CheckUpdateActivity {
+public class MainActivity extends UpdateActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HuLuDao_Res/CHINESE.zip";
@@ -66,7 +66,7 @@ public class MainActivity extends CheckUpdateActivity {
         findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkNewVersion(new CheckCallback() {
+                checkNewVersion(new UpdateCallback() {
                     @Override
                     public void hasNewVersion(UpdateResponse response) {
                         showHasNewVersionDialog(response);

@@ -1,7 +1,7 @@
 package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.DataBean;
-import com.hengda.zwf.httputil.httprequest.HttpResponse;
+import com.hengda.zwf.httputil.request.HttpResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
