@@ -19,13 +19,6 @@
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="http-检查更新"
-        android:textAllCaps="false" />
-
-    <Button
         android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
