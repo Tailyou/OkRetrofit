@@ -18,13 +18,9 @@ import okhttp3.OkHttpClient;
  */
 public class RetrofitHelper extends BaseRetrofit {
 
+    private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
     private volatile static RetrofitHelper instance;
-    private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable;
-
-    static {
-        retrofitHelperHashtable = new Hashtable<>();
-    }
 
     /**
      * 单例模式
