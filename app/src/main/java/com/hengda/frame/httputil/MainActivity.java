@@ -8,9 +8,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.app.HdApplication;
+import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.http.RetrofitHelper;
+import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
+import com.hengda.zwf.httputil.update.UpdateResponse;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -40,8 +44,36 @@ public class MainActivity extends AppCompatActivity {
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
 
+        //检查更新
+        findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int versionCode = AppUtil.getVersionCode(HdApplication.mContext);
+                String deviceNo = HdAppConfig.getDeviceNo();
+                RetrofitHelper.getInstance()
+                        .checkUpdate(HdConstants.APP_KEY, HdConstants.APP_SECRET, HdConstants.APP_KIND, versionCode, deviceNo)
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) throws Exception {
+                                compositeDisposable.add(disposable);
+                            }
+                        })
+                        .subscribe(new Consumer<UpdateResponse>() {
+                            @Override
+                            public void accept(UpdateResponse dataBean) throws Exception {
+                                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Logger.e(throwable.getMessage());
+                            }
+                        });
+            }
+        });
+
         //获取数据
-        findViewById(R.id.btnDeviceNo).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnGetData).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 RetrofitHelper.getInstance()
