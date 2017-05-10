@@ -21,6 +21,6 @@ public class HdConstants {
 
     //    交互服务器IP、端口
     //public static final String DEFAULT_IP_PORT = "101.201.42.76";//阿里云
-    public static final String DEFAULT_IP_PORT = "192.168.16.10";//恒达
+    public static final String DEFAULT_IP_PORT = "192.168.10.20";//恒达
 
 }

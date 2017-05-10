@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.frame.httputil.update.CheckCallback;
 import com.hengda.frame.httputil.update.CheckUpdateActivity;
@@ -42,16 +42,16 @@ public class MainActivity extends CheckUpdateActivity {
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
 
-        //检查更新
+        //获取数据
         findViewById(R.id.btnDeviceNo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 RetrofitHelper.getInstance()
-                        .reqDeviceNo(HdConstants.APP_KIND)
-                        .subscribe(new Consumer<String>() {
+                        .loadDatas()
+                        .subscribe(new Consumer<DataBean>() {
                             @Override
-                            public void accept(String s) throws Exception {
-                                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                            public void accept(DataBean dataBean) throws Exception {
+                                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
                             }
                         }, new Consumer<Throwable>() {
                             @Override

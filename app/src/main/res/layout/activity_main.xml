@@ -15,21 +15,21 @@
         android:id="@+id/btnDeviceNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请求设备号"
+        android:text="http-获取数据"
         android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="App检查更新"
+        android:text="http-检查更新"
         android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="资源下载"
+        android:text="http-资源下载"
         android:textAllCaps="false" />
 
     <TextView

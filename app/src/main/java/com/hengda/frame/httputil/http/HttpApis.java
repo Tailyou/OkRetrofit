@@ -1,11 +1,10 @@
 package com.hengda.frame.httputil.http;
 
+import com.hengda.frame.httputil.DataBean;
 import com.hengda.zwf.httputil.httprequest.HttpResponse;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
 
 /**
  * 作者：祝文飞（Tailyou）
@@ -17,13 +16,12 @@ import retrofit2.http.POST;
 public interface HttpApis {
 
     /**
-     * 请求机器号
+     * 获取数据
      *
-     * @param app_kind
-     * @return
+     * @author 祝文飞（Tailyou）
+     * @time 2016/12/21 14:23
      */
-    @FormUrlEncoded
-    @POST("index.php?a=request_deviceno")
-    Observable<HttpResponse<String>> reqDeviceNo(@Field("app_kind") int app_kind);
+    @GET("index.php?g=mapi&m=appdatas&a=datas")
+    Observable<HttpResponse<DataBean>> loadDatas();
 
 }

@@ -1,5 +1,6 @@
 package com.hengda.frame.httputil.http;
 
+import com.hengda.frame.httputil.DataBean;
 import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.zwf.httputil.httprequest.BaseRetrofit;
 
@@ -64,7 +65,7 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2016/11/12 11:38
      */
     public static String setupBaseHttpUrl() {
-        return "http://" + HdAppConfig.getDefaultIpPort() + "/tbys/sxbwg/";
+        return "http://" + HdAppConfig.getDefaultIpPort() + "/hnbwy/";
     }
 
     /**
@@ -84,14 +85,14 @@ public class RetrofitHelper extends BaseRetrofit {
     }
 
     /**
-     * 请求机器号
+     * 获取数据
      *
-     * @param appKind
      * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:35
+     * @time 2017/1/3 11:57
      */
-    public Observable<String> reqDeviceNo(int appKind) {
-        return httpApis.reqDeviceNo(appKind).compose(rxSchedulerHelper()).compose(handleResult());
+    public Observable<DataBean> loadDatas() {
+        return httpApis.loadDatas()
+                .compose(rxSchedulerHelper()).compose(handleResult());
     }
 
 }
