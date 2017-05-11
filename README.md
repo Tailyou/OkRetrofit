@@ -84,7 +84,7 @@ RxDownload.getInstance().context(MainActivity.this)
 
 #### 网络请求
 
-#### 新建定义方法的接口
+1、新建定义方法的接口
 
 ```java
 public interface HttpApis {
@@ -101,7 +101,7 @@ public interface HttpApis {
 }
 ```
 
-#### 实现BaseRetrofit
+2、实现BaseRetrofit
 
 ```java
 package com.hengda.frame.httputil.http;
@@ -199,7 +199,8 @@ public class RetrofitHelper extends BaseRetrofit {
 }
 ```
 
-#### 使用
+3、使用
+
 ```java
 RetrofitHelper.getInstance()
         .loadDatas()
