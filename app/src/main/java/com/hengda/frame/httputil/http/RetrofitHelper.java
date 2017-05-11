@@ -21,10 +21,10 @@ import okhttp3.OkHttpClient;
  */
 public class RetrofitHelper extends BaseRetrofit {
 
-    public static final String APP_UPDATE_URL = "http://101.200.234.14/APPCloud/";
+    private static final String APP_UPDATE_URL = "http://101.200.234.14/APPCloud/";
     private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
-    public static UpdateApis updateApis = null;
+    private static UpdateApis updateApis = null;
     private volatile static RetrofitHelper instance;
 
     /**
@@ -35,8 +35,8 @@ public class RetrofitHelper extends BaseRetrofit {
      */
     private RetrofitHelper() {
         super();
-        updateApis = getApiService(APP_UPDATE_URL, UpdateApis.class);
         httpApis = getApiService(setupBaseHttpUrl(), HttpApis.class);
+        updateApis = getApiService(APP_UPDATE_URL, UpdateApis.class);
     }
 
     /**
@@ -46,14 +46,14 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2016/11/12 11:32
      */
     public static RetrofitHelper getInstance() {
-        String ipPort = HdAppConfig.getDefaultIpPort();
-        instance = retrofitHelperHashtable.get(ipPort);
+        String baseUrl = setupBaseHttpUrl();
+        instance = retrofitHelperHashtable.get(baseUrl);
         if (instance == null) {
             synchronized (RetrofitHelper.class) {
                 if (instance == null) {
                     instance = new RetrofitHelper();
                     retrofitHelperHashtable.clear();
-                    retrofitHelperHashtable.put(ipPort, instance);
+                    retrofitHelperHashtable.put(baseUrl, instance);
                 }
             }
         }

@@ -17,10 +17,10 @@ public class HdConstants {
     public static final String APP_SHARED_PREF_NAME = "HD_SMART_GUIDE_PREF_NAME";
 
     //    默认设备号
-    public static final String DEFAULT_DEVICE_NO = "AG10000000000";
+    public static final String DEFAULT_DEVICE_NO = "10000000000";
 
     //    交互服务器IP、端口
-    //public static final String DEFAULT_IP_PORT = "101.201.42.76";//阿里云
-    public static final String DEFAULT_IP_PORT = "192.168.10.20";//恒达
+    //public static final String DEFAULT_IP_PORT = "101.201.42.76";//外网
+    public static final String DEFAULT_IP_PORT = "192.168.10.20";//内网
 
 }
