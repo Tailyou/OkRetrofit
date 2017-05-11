@@ -1,5 +1,4 @@
-OkRetrofit
-==================
+# OkRetrofit
 
 OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求库，其中文件下载部分参考了RxDownload，去掉了RxPermission相关的代码，
 网络请求部分做了适当的抽象和封装，方便使用的同时也不影响相关部分的定制。
@@ -18,8 +17,7 @@ OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求�
 - 内置服务器统一返回`HttpResponse`和请求异常`HttpException`；
 - 内置统一线程处理和统一返回结果转换方法；
 
-Usage
-==================
+# Usage
 
 #### Gradle
 
