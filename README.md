@@ -3,7 +3,7 @@ OkRetrofit
 
 # 概述
 
-OkRetrofit是一个基于RxJava2+Retrofit2封装的网络库，包含文件下载和网络请求两部分，其中文件下载参考RxDownload修改，网络请求做了适当的封装，使用起来特别简单。
+OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求库，其中文件下载参考RxDownload修改，网络请求做了适当的封装，使用起来特别简单。
 
 #### 文件下载
 
