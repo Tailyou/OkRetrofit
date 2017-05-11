@@ -11,10 +11,11 @@ import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.app.HdApplication;
 import com.hengda.frame.httputil.app.HdConstants;
 import com.hengda.frame.httputil.http.RetrofitHelper;
+import com.hengda.frame.httputil.bean.DataBean;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
-import com.hengda.frame.httputil.update.UpdateResponse;
+import com.hengda.frame.httputil.bean.UpdateBean;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -58,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
                                 compositeDisposable.add(disposable);
                             }
                         })
-                        .subscribe(new Consumer<UpdateResponse>() {
+                        .subscribe(new Consumer<UpdateBean>() {
                             @Override
-                            public void accept(UpdateResponse dataBean) throws Exception {
+                            public void accept(UpdateBean dataBean) throws Exception {
                                 Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
                             }
                         }, new Consumer<Throwable>() {

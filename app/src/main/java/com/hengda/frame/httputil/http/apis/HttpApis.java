@@ -1,6 +1,6 @@
-package com.hengda.frame.httputil.http;
+package com.hengda.frame.httputil.http.apis;
 
-import com.hengda.frame.httputil.DataBean;
+import com.hengda.frame.httputil.bean.DataBean;
 import com.hengda.zwf.httputil.request.HttpResponse;
 
 import io.reactivex.Observable;

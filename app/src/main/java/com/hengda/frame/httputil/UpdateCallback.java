@@ -1,4 +1,6 @@
-package com.hengda.frame.httputil.update;
+package com.hengda.frame.httputil;
+
+import com.hengda.frame.httputil.bean.UpdateBean;
 
 /**
  * 作者：Tailyou （祝文飞）
@@ -8,7 +10,7 @@ package com.hengda.frame.httputil.update;
  */
 public class UpdateCallback {
 
-    public void hasNewVersion(UpdateResponse response){}
+    public void hasNewVersion(UpdateBean response){}
 
     public void isAlreadyLatestVersion(){}
 

@@ -1,4 +1,4 @@
-package com.hengda.frame.httputil;
+package com.hengda.frame.httputil.bean;
 
 import java.io.Serializable;
 import java.util.List;

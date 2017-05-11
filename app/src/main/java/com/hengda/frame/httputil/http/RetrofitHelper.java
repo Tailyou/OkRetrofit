@@ -1,9 +1,10 @@
 package com.hengda.frame.httputil.http;
 
-import com.hengda.frame.httputil.DataBean;
 import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.frame.httputil.update.UpdateApis;
-import com.hengda.frame.httputil.update.UpdateResponse;
+import com.hengda.frame.httputil.bean.DataBean;
+import com.hengda.frame.httputil.bean.UpdateBean;
+import com.hengda.frame.httputil.http.apis.HttpApis;
+import com.hengda.frame.httputil.http.apis.UpdateApis;
 import com.hengda.zwf.httputil.request.BaseRetrofit;
 
 import java.util.Hashtable;
@@ -96,8 +97,9 @@ public class RetrofitHelper extends BaseRetrofit {
      * @author 祝文飞（Tailyou）
      * @time 2016/11/12 11:37
      */
-    public Observable<UpdateResponse> checkUpdate(String appKey, String appSecret, int appKind, int verCode, String deviceNo) {
-        return updateApis.checkUpdate(appKey, appSecret, appKind, verCode, deviceNo).compose(rxSchedulerHelper());
+    public Observable<UpdateBean> checkUpdate(String appKey, String appSecret, int appKind, int verCode, String deviceNo) {
+        return updateApis.checkUpdate(appKey, appSecret, appKind, verCode, deviceNo)
+                .compose(rxSchedulerHelper()).compose(handleResult());
     }
 
     /**
