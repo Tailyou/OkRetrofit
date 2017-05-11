@@ -8,14 +8,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.frame.httputil.app.HdApplication;
-import com.hengda.frame.httputil.app.HdConstants;
-import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.frame.httputil.bean.DataBean;
-import com.hengda.zwf.commonutil.AppUtil;
+import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
-import com.hengda.frame.httputil.bean.UpdateBean;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;

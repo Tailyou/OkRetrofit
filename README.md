@@ -2,9 +2,10 @@ OkRetrofit
 ==================
 
 # 概述
-OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请求。
 
-#### 文件下载基于RxDownload修改
+OkRetrofit是一个基于RxJava2+Retrofit2封装的网络库，包含文件下载和网络请求两部分，其中文件下载参考RxDownload修改，网络请求做了适当的封装，使用起来特别简单。
+
+#### 文件下载
 
 - 智能判断服务器是否支持断点续传并适配相应下载方式；
 - 智能判断同一地址对应的文件在服务端是否有改变并重新下载；
@@ -12,7 +13,7 @@ OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请�
 - 支持下载状态、下载进度监听；
 - 支持在Service中下载文件，内置DownloadService；
 
-#### 网络请求基于Retrofit2+RxJava2封装
+#### 网络请求
 
 - 内置`BaseRetrofit`,提供了抽象方法`initOkHttp`供上层实现，可在此方法中配置日志、缓存、超时等；
 - 内置服务器统一返回`HttpResponse`和请求异常`HttpException`；
@@ -43,43 +44,42 @@ dependencies {
 #### 文件下载
 
 ```java
-                    RxDownload.getInstance()
-                        .context(MainActivity.this)
-                        .maxThread(16).maxRetryCount(3)
-                        .download(url, saveName, savePath)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                compositeDisposable.add(disposable);
-                                tvDownloadStatus.setText("下载地址：" + url + "\n");
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                                tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n开始下载：" + sdf.format(new Date()));
-                            }
-                        })
-                        .doOnNext(new Consumer<DownloadStatus>() {
-                            @Override
-                            public void accept(DownloadStatus downloadStatus) throws Exception {
-                                tvDownloadPrg.setText("下载进度：" + downloadStatus.getFormatStatusString());
-                            }
-                        })
-                        .doOnError(new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                tvDownloadStatus.setText("下载失败:" + throwable.getMessage());
-                            }
-                        })
-                        .doOnComplete(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-                                tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
-                                File file = new File(savePath, saveName);
-                                file.delete();
-                            }
-                        })
-                        .subscribe();
+RxDownload.getInstance().context(MainActivity.this)
+        .maxThread(4).maxRetryCount(3)
+        .download(url, saveName, savePath)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .doOnSubscribe(new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                compositeDisposable.add(disposable);
+                tvDownloadStatus.setText("下载地址：" + url + "\n");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                tvDownloadStatus.setText(tvDownloadStatus.getText() + "\n开始下载：" + sdf.format(new Date()));
+            }
+        })
+        .doOnNext(new Consumer<DownloadStatus>() {
+            @Override
+            public void accept(DownloadStatus downloadStatus) throws Exception {
+                tvDownloadPrg.setText("下载进度：" + downloadStatus.getFormatStatusString());
+            }
+        })
+        .doOnError(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                tvDownloadStatus.setText("下载失败:" + throwable.getMessage());
+            }
+        })
+        .doOnComplete(new Action() {
+            @Override
+            public void run() throws Exception {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+                tvDownloadPrg.setText(tvDownloadPrg.getText() + "\n下载完成：" + sdf.format(new Date()));
+                File file = new File(savePath, saveName);
+                file.delete();
+            }
+        })
+        .subscribe();     
 ```
 
 #### 网络请求
@@ -201,25 +201,24 @@ public class RetrofitHelper extends BaseRetrofit {
 
 #### 使用
 ```java
-                    RetrofitHelper.getInstance()
-                        .loadDatas()
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                compositeDisposable.add(disposable);
-                            }
-                        })
-                        .subscribe(new Consumer<DataBean>() {
-                            @Override
-                            public void accept(DataBean dataBean) throws Exception {
-                                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Logger.e(throwable.getMessage());
-                            }
-                        });
+RetrofitHelper.getInstance()
+        .loadDatas()
+        .doOnSubscribe(new Consumer<Disposable>() {
+            @Override public void accept(Disposable disposable) throws Exception {
+                compositeDisposable.add(disposable);
+            }
+        })
+        .subscribe(new Consumer<DataBean>() {
+            @Override
+            public void accept(DataBean dataBean) throws Exception {
+                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Logger.e(throwable.getMessage());
+            }
+        });                
 ```
 
 
