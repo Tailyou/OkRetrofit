@@ -45,34 +45,6 @@ public class MainActivity extends AppCompatActivity {
         tvDownloadStatus = (TextView) findViewById(R.id.tvDownloadStatus);
         tvDownloadPrg = (TextView) findViewById(R.id.tvDownloadPrg);
 
-        //检查更新
-        findViewById(R.id.btnUpdate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int versionCode = AppUtil.getVersionCode(HdApplication.mContext);
-                String deviceNo = HdAppConfig.getDeviceNo();
-                RetrofitHelper.getInstance()
-                        .checkUpdate(HdConstants.APP_KEY, HdConstants.APP_SECRET, HdConstants.APP_KIND, versionCode, deviceNo)
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                compositeDisposable.add(disposable);
-                            }
-                        })
-                        .subscribe(new Consumer<UpdateBean>() {
-                            @Override
-                            public void accept(UpdateBean dataBean) throws Exception {
-                                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Logger.e(throwable.getMessage());
-                            }
-                        });
-            }
-        });
-
         //获取数据
         findViewById(R.id.btnGetData).setOnClickListener(new View.OnClickListener() {
             @Override

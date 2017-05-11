@@ -1,4 +1,4 @@
-package com.hengda.frame.httputil.http.apis;
+package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.bean.DataBean;
 import com.hengda.zwf.httputil.request.HttpResponse;
