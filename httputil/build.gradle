@@ -3,15 +3,15 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.novoda.bintray-release'
 
 publish {
-    userOrg = 'hdandroidteam'
+    userOrg = 'tailyou'
     groupId = 'com.hengda.zwf'
-    artifactId = 'HttpUtil'
-    publishVersion = '2.0.1'
-    desc = 'HttpUtil'
+    artifactId = 'OkRetrofit'
+    publishVersion = '0.0.1'
+    desc = 'OkRetrofit'
     website = 'https://github.com/Tailyou/'
 
-    bintrayUser = 'hdandroidteam'
-    bintrayKey = '73d6b8e5010a405d8e5dabea6e235fe913177f89'
+    bintrayUser = 'tailyou'
+    bintrayKey = '37d810ba665230de033e44b1e5a0b01f86923bf7'
 }
 
 android {
