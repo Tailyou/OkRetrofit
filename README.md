@@ -3,7 +3,7 @@
 OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求库，其中文件下载部分参考了RxDownload，去掉了RxPermission相关的代码，
 网络请求部分做了适当的抽象和封装，方便使用的同时也不影响相关部分的定制。
 
-#### 文件下载
+### 文件下载
 
 - 智能判断服务器是否支持断点续传并适配相应下载方式；
 - 智能判断同一地址对应的文件在服务端是否有改变并重新下载；
@@ -11,7 +11,7 @@ OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求�
 - 支持下载状态、下载进度监听；
 - 支持在Service中下载文件，内置DownloadService；
 
-#### 网络请求
+### 网络请求
 
 - 内置`BaseRetrofit`,提供了抽象方法`initOkHttp`供上层实现，可在此方法中配置日志、缓存、超时等；
 - 内置服务器统一返回`HttpResponse`和请求异常`HttpException`；
@@ -19,7 +19,7 @@ OkRetrofit是一个基于Retrofit2+RxJava2封装的文件下载和网络请求�
 
 # Usage
 
-#### Gradle
+### Gradle
 
 ```groovy
 dependencies {
@@ -27,7 +27,7 @@ dependencies {
 }
 ```
 
-#### Maven
+### Maven
 
 ```groovy
 <dependency>
@@ -39,7 +39,7 @@ dependencies {
 ```
 
 
-#### 文件下载
+### 文件下载
 
 ```java
 RxDownload.getInstance().context(MainActivity.this)
@@ -80,7 +80,7 @@ RxDownload.getInstance().context(MainActivity.this)
         .subscribe();     
 ```
 
-#### 网络请求
+### 网络请求
 
 1、新建定义方法的接口
 
