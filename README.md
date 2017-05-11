@@ -4,7 +4,7 @@ OkRetrofit
 # 概述
 OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请求。
 
-## 文件下载基于RxDownload修改
+#### 文件下载基于RxDownload修改
 
 - 智能判断服务器是否支持断点续传并适配相应下载方式；
 - 智能判断同一地址对应的文件在服务端是否有改变并重新下载；
@@ -12,7 +12,7 @@ OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请�
 - 支持下载状态、下载进度监听；
 - 支持在Service中下载文件，内置DownloadService；
 
-## 网络请求基于Retrofit2+RxJava2封装
+#### 网络请求基于Retrofit2+RxJava2封装
 
 - 内置`BaseRetrofit`,提供了抽象方法`initOkHttp`供上层实现，可在此方法中配置日志、缓存、超时等；
 - 内置服务器统一返回`HttpResponse`和请求异常`HttpException`；
@@ -42,7 +42,7 @@ dependencies {
 
 #### 文件下载
 
-```Android
+```java
                     RxDownload.getInstance()
                         .context(MainActivity.this)
                         .maxThread(16).maxRetryCount(3)
@@ -86,7 +86,7 @@ dependencies {
 
 #### 新建定义方法的接口
 
-```Android
+```java
 public interface HttpApis {
 
     /**
@@ -103,7 +103,7 @@ public interface HttpApis {
 
 #### 实现BaseRetrofit
 
-```
+```java
 package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.app.HdAppConfig;
@@ -200,7 +200,7 @@ public class RetrofitHelper extends BaseRetrofit {
 ```
 
 #### 使用
-```Android
+```java
                     RetrofitHelper.getInstance()
                         .loadDatas()
                         .doOnSubscribe(new Consumer<Disposable>() {
