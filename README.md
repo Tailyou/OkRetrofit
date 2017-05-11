@@ -20,7 +20,7 @@ OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请�
 
 # 使用
 
-## Gradle
+#### Gradle
 
 ```groovy
 dependencies {
@@ -28,7 +28,7 @@ dependencies {
 }
 ```
 
-## Maven
+#### Maven
 
 ```groovy
 <dependency>
@@ -40,9 +40,9 @@ dependencies {
 ```
 
 
-## 文件下载
+#### 文件下载
 
-```
+```Android
                     RxDownload.getInstance()
                         .context(MainActivity.this)
                         .maxThread(16).maxRetryCount(3)
@@ -82,11 +82,11 @@ dependencies {
                         .subscribe();
 ```
 
-## 网络请求
+#### 网络请求
 
 #### 新建定义方法的接口
 
-```
+```Android
 public interface HttpApis {
 
     /**
@@ -200,8 +200,8 @@ public class RetrofitHelper extends BaseRetrofit {
 ```
 
 #### 使用
-```
-                RetrofitHelper.getInstance()
+```Android
+                    RetrofitHelper.getInstance()
                         .loadDatas()
                         .doOnSubscribe(new Consumer<Disposable>() {
                             @Override
