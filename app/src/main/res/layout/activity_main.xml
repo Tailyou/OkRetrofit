@@ -12,13 +12,6 @@
     tools:context="com.hengda.frame.httputil.MainActivity">
 
     <Button
-        android:id="@+id/btnUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="http-检查更新"
-        android:textAllCaps="false" />
-
-    <Button
         android:id="@+id/btnGetData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

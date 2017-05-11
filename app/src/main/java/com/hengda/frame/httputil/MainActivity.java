@@ -32,8 +32,8 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String url = "http://hengdawb-res.oss-cn-hangzhou.aliyuncs.com/HuLuDao_Res/CHINESE.zip";
-    String saveName = "CHINESE.zip";
+    String url = "http://dldir1.qq.com/weixin/android/weixin6330android920.apk";
+    String saveName = "weixin6330android920.apk";
     String savePath = HdAppConfig.getDefaultFileDir();
     TextView tvDownloadStatus;
     TextView tvDownloadPrg;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RxDownload.getInstance().context(MainActivity.this)
-                        .maxThread(16).maxRetryCount(3)
+                        .maxThread(4).maxRetryCount(3)
                         .download(url, saveName, savePath)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
