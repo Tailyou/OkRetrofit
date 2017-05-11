@@ -5,8 +5,10 @@ import com.hengda.zwf.httputil.update.UpdateResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -63,8 +65,13 @@ public abstract class BaseRetrofit {
      * @return
      */
     public <T> ObservableTransformer<T, T> rxSchedulerHelper() {
-        return upstream -> upstream.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
     }
 
     /**
@@ -74,13 +81,21 @@ public abstract class BaseRetrofit {
      * @return
      */
     public <T> ObservableTransformer<HttpResponse<T>, T> handleResult() {
-        return httpResponseObservable -> httpResponseObservable.map(httpResponse -> {
-            if (httpResponse.getStatus().equals(HttpResponse.HTTP_STATUS_SUCCESS)) {
-                return httpResponse.getData();
-            } else {
-                throw new ApiException(httpResponse.getMsg());
+        return new ObservableTransformer<HttpResponse<T>, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<HttpResponse<T>> httpResponseObservable) {
+                return httpResponseObservable.map(new Function<HttpResponse<T>, T>() {
+                    @Override
+                    public T apply(HttpResponse<T> httpResponse) throws Exception {
+                        if (httpResponse.getStatus().equals(HttpResponse.HTTP_STATUS_SUCCESS)) {
+                            return httpResponse.getData();
+                        } else {
+                            throw new HttpException(httpResponse.getMsg());
+                        }
+                    }
+                });
             }
-        });
+        };
     }
 
 }

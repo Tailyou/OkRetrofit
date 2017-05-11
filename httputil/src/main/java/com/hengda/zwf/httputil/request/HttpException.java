@@ -6,9 +6,9 @@ package com.hengda.zwf.httputil.request;
  * @author 祝文飞（Tailyou）
  * @time 2017/5/10 10:52
  */
-public class ApiException extends RuntimeException {
+public class HttpException extends RuntimeException {
 
-    public ApiException(String detailMessage) {
+    public HttpException(String detailMessage) {
         super(detailMessage);
     }
 
