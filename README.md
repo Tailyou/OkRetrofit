@@ -82,67 +82,31 @@ RxDownload.getInstance().context(MainActivity.this)
 
 ### 网络请求
 
-1、新建定义方法的接口
+1、新建声明网络请求方法的接口
 
 ```java
 public interface HttpApis {
 
-    /**
-     * 获取数据
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2016/12/21 14:23
-     */
     @GET("index.php?g=mapi&m=appdatas&a=datas")
     Observable<HttpResponse<DataBean>> loadDatas();
 
 }
 ```
 
-2、实现BaseRetrofit
+2、继承BaseRetrofit，实现initOkHttp方法，在此方法中可配置超时、日志、缓存等。
 
 ```java
-package com.hengda.frame.httputil.http;
-
-import com.hengda.frame.httputil.app.HdAppConfig;
-import com.hengda.frame.httputil.bean.DataBean;
-import com.hengda.zwf.httputil.request.BaseRetrofit;
-
-import java.util.Hashtable;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import okhttp3.OkHttpClient;
-
-/**
- * 作者：祝文飞（Tailyou）
- * 邮箱：tailyou@163.com
- * 时间：2017/2/15 14:06
- * 描述：
- */
 public class RetrofitHelper extends BaseRetrofit {
 
     private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
     private volatile static RetrofitHelper instance;
 
-    /**
-     * 单例模式
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:31
-     */
     private RetrofitHelper() {
         super();
         httpApis = getApiService(setupBaseHttpUrl(), HttpApis.class);
     }
 
-    /**
-     * 获取实例-单例
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:32
-     */
     public static RetrofitHelper getInstance() {
         String baseUrl = setupBaseHttpUrl();
         instance = retrofitHelperHashtable.get(baseUrl);
@@ -158,22 +122,10 @@ public class RetrofitHelper extends BaseRetrofit {
         return instance;
     }
 
-    /**
-     * 组装网络请求基地址
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:38
-     */
     public static String setupBaseHttpUrl() {
         return "http://" + HdAppConfig.getDefaultIpPort() + "/hnbwy/";
     }
 
-    /**
-     * 在此配置超时，缓存，日志等
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2017/5/10 11:10
-     */
     @Override
     public OkHttpClient initOkHttp() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -184,12 +136,6 @@ public class RetrofitHelper extends BaseRetrofit {
         return builder.build();
     }
 
-    /**
-     * 获取数据
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2017/1/3 11:57
-     */
     public Observable<DataBean> loadDatas() {
         return httpApis.loadDatas().compose(rxSchedulerHelper()).compose(handleResult());
     }
