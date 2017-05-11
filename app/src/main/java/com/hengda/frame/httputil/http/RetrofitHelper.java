@@ -18,7 +18,6 @@ import okhttp3.OkHttpClient;
  */
 public class RetrofitHelper extends BaseRetrofit {
 
-    private static final String APP_UPDATE_URL = "http://101.200.234.14/APPCloud/";
     private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
     private volatile static RetrofitHelper instance;
