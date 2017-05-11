@@ -1,31 +1,50 @@
-## 一、概述
+OkRetrofit
+==================
 
-HttpUtil是一个二合一的网络功能库，包含文件下载和网络请求。
+# 概述
+OkRetrofit是一个二合一的网络功能库，包含文件下载和网络请求。
 
-文件下载基于RxDownload修改
+## 文件下载基于RxDownload修改
+
 - 智能判断服务器是否支持断点续传并适配相应下载方式；
 - 智能判断同一地址对应的文件在服务端是否有改变并重新下载；
 - 支持多线程下载，可设置下载线程数；
 - 支持下载状态、下载进度监听；
 - 支持在Service中下载文件，内置DownloadService；
 
-网络请求
-- 提供了抽象方法`initOkHttp`供上层实现，可在此方法中配置日志、缓存、超时等；
-- 内置统一线程处理和统一返回结果转换；
-- 内置统一返回实体和异常类；
-- 内置了App检查更新的方法；
+## 网络请求基于Retrofit2+RxJava2封装
 
-## 二、版本
-已在多个项目中使用，且已上传jCenter，最新版本2.0.0，直接在gradle中添加即可。
+- 内置`BaseRetrofit`,提供了抽象方法`initOkHttp`供上层实现，可在此方法中配置日志、缓存、超时等；
+- 内置服务器统一返回`HttpResponse`和请求异常`HttpException`；
+- 内置统一线程处理和统一返回结果转换方法；
 
-compile 'com.hengda.zwf:HttpUtil:2.0.0'
+# 使用
 
-## 三、使用
-具体用法参见demo，项目地址：https://git.oschina.net/tailyou/HD_Frame_HttpUtil 。
+## Gradle
 
-### 1、文件下载
+```groovy
+dependencies {
+    compile 'com.hengda.zwf:OkRetrofit:0.0.1'
+}
 ```
-RxDownload.getInstance().context(MainActivity.this)
+
+## Maven
+
+```groovy
+<dependency>
+  <groupId>com.hengda.zwf</groupId>
+  <artifactId>OkRetrofit</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+
+## 文件下载
+
+```
+                    RxDownload.getInstance()
+                        .context(MainActivity.this)
                         .maxThread(16).maxRetryCount(3)
                         .download(url, saveName, savePath)
                         .subscribeOn(Schedulers.io())
@@ -63,9 +82,9 @@ RxDownload.getInstance().context(MainActivity.this)
                         .subscribe();
 ```
 
-### 2、网络请求
+## 网络请求
 
-#### 提供网络请求接口
+#### 新建定义方法的接口
 
 ```
 public interface HttpApis {
@@ -84,9 +103,19 @@ public interface HttpApis {
 
 #### 实现BaseRetrofit
 
-主要实现 `initOkHttp`
-
 ```
+package com.hengda.frame.httputil.http;
+
+import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.bean.DataBean;
+import com.hengda.zwf.httputil.request.BaseRetrofit;
+
+import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import okhttp3.OkHttpClient;
+
 /**
  * 作者：祝文飞（Tailyou）
  * 邮箱：tailyou@163.com
@@ -117,14 +146,14 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2016/11/12 11:32
      */
     public static RetrofitHelper getInstance() {
-        String ipPort = HdAppConfig.getDefaultIpPort();
-        instance = retrofitHelperHashtable.get(ipPort);
+        String baseUrl = setupBaseHttpUrl();
+        instance = retrofitHelperHashtable.get(baseUrl);
         if (instance == null) {
             synchronized (RetrofitHelper.class) {
                 if (instance == null) {
                     instance = new RetrofitHelper();
                     retrofitHelperHashtable.clear();
-                    retrofitHelperHashtable.put(ipPort, instance);
+                    retrofitHelperHashtable.put(baseUrl, instance);
                 }
             }
         }
@@ -164,11 +193,33 @@ public class RetrofitHelper extends BaseRetrofit {
      * @time 2017/1/3 11:57
      */
     public Observable<DataBean> loadDatas() {
-        return httpApis.loadDatas()
-                .compose(rxSchedulerHelper()).compose(handleResult());
+        return httpApis.loadDatas().compose(rxSchedulerHelper()).compose(handleResult());
     }
 
 }
+```
+
+#### 使用
+```
+                RetrofitHelper.getInstance()
+                        .loadDatas()
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) throws Exception {
+                                compositeDisposable.add(disposable);
+                            }
+                        })
+                        .subscribe(new Consumer<DataBean>() {
+                            @Override
+                            public void accept(DataBean dataBean) throws Exception {
+                                Toast.makeText(MainActivity.this, new Gson().toJson(dataBean), Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Logger.e(throwable.getMessage());
+                            }
+                        });
 ```
 
 
