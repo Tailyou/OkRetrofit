@@ -2,6 +2,8 @@ package com.hengda.frame.httputil.http;
 
 import com.hengda.frame.httputil.DataBean;
 import com.hengda.frame.httputil.app.HdAppConfig;
+import com.hengda.frame.httputil.update.UpdateApis;
+import com.hengda.frame.httputil.update.UpdateResponse;
 import com.hengda.zwf.httputil.request.BaseRetrofit;
 
 import java.util.Hashtable;
@@ -18,8 +20,10 @@ import okhttp3.OkHttpClient;
  */
 public class RetrofitHelper extends BaseRetrofit {
 
+    public static final String APP_UPDATE_URL = "http://101.200.234.14/APPCloud/";
     private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
+    public static UpdateApis updateApis = null;
     private volatile static RetrofitHelper instance;
 
     /**
@@ -30,6 +34,7 @@ public class RetrofitHelper extends BaseRetrofit {
      */
     private RetrofitHelper() {
         super();
+        updateApis = getApiService(APP_UPDATE_URL, UpdateApis.class);
         httpApis = getApiService(setupBaseHttpUrl(), HttpApis.class);
     }
 
@@ -78,6 +83,21 @@ public class RetrofitHelper extends BaseRetrofit {
         builder.readTimeout(20, TimeUnit.SECONDS);
         builder.retryOnConnectionFailure(true);
         return builder.build();
+    }
+
+    /**
+     * 检查更新
+     *
+     * @param appKey
+     * @param appSecret
+     * @param appKind
+     * @param verCode
+     * @param deviceNo
+     * @author 祝文飞（Tailyou）
+     * @time 2016/11/12 11:37
+     */
+    public Observable<UpdateResponse> checkUpdate(String appKey, String appSecret, int appKind, int verCode, String deviceNo) {
+        return updateApis.checkUpdate(appKey, appSecret, appKind, verCode, deviceNo).compose(rxSchedulerHelper());
     }
 
     /**

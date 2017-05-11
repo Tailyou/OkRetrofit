@@ -14,7 +14,7 @@ import com.hengda.frame.httputil.http.RetrofitHelper;
 import com.hengda.zwf.commonutil.AppUtil;
 import com.hengda.zwf.httputil.download.RxDownload;
 import com.hengda.zwf.httputil.download.entity.DownloadStatus;
-import com.hengda.zwf.httputil.update.UpdateResponse;
+import com.hengda.frame.httputil.update.UpdateResponse;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;

@@ -1,10 +1,7 @@
 package com.hengda.zwf.httputil.request;
 
-import com.hengda.zwf.httputil.update.UpdateApis;
-import com.hengda.zwf.httputil.update.UpdateResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -20,15 +17,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public abstract class BaseRetrofit {
 
-    public static final String APP_UPDATE_URL = "http://101.200.234.14/APPCloud/";
     public static OkHttpClient okHttpClient = null;
-    public static UpdateApis updateApis = null;
 
     public abstract OkHttpClient initOkHttp();
 
     public BaseRetrofit() {
         okHttpClient = initOkHttp();
-        updateApis = getApiService(APP_UPDATE_URL, UpdateApis.class);
     }
 
     public <T> T getApiService(String baseUrl, Class<T> clz) {
@@ -39,21 +33,6 @@ public abstract class BaseRetrofit {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(clz);
-    }
-
-    /**
-     * 检查更新
-     *
-     * @param appKey
-     * @param appSecret
-     * @param appKind
-     * @param verCode
-     * @param deviceNo
-     * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:37
-     */
-    public Observable<UpdateResponse> checkUpdate(String appKey, String appSecret, int appKind, int verCode, String deviceNo) {
-        return updateApis.checkUpdate(appKey, appSecret, appKind, verCode, deviceNo).compose(rxSchedulerHelper());
     }
 
     /**

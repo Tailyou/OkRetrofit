@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.update;
+package com.hengda.frame.httputil.update;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;

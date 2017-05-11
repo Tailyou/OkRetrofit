@@ -1,4 +1,4 @@
-package com.hengda.zwf.httputil.update;
+package com.hengda.frame.httputil.update;
 
 /**
  * 作者：Tailyou （祝文飞）
