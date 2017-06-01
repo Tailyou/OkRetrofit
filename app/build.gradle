@@ -37,5 +37,5 @@ dependencies {
     compile 'com.orhanobut:logger:1.11'
     compile 'com.hengda.zwf:CommonUtil:1.0.1'
     compile 'com.hengda.zwf:HdDialog:0.0.6'
-    compile project(':httputil')
+    compile project(':library')
 }

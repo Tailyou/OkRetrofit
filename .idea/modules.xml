@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HttpUtil.iml" filepath="$PROJECT_DIR$/HttpUtil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OkRetrofit.iml" filepath="$PROJECT_DIR$/OkRetrofit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/httputil/httputil.iml" filepath="$PROJECT_DIR$/httputil/httputil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>
