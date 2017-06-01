@@ -4,7 +4,6 @@ import com.hengda.frame.httputil.app.HdAppConfig;
 import com.hengda.frame.httputil.bean.DataBean;
 import com.hengda.zwf.httputil.request.BaseRetrofit;
 
-import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -18,7 +17,6 @@ import okhttp3.OkHttpClient;
  */
 public class RetrofitHelper extends BaseRetrofit {
 
-    private static Hashtable<String, RetrofitHelper> retrofitHelperHashtable = new Hashtable<>();
     private static HttpApis httpApis = null;
     private volatile static RetrofitHelper instance;
 
@@ -34,27 +32,6 @@ public class RetrofitHelper extends BaseRetrofit {
     }
 
     /**
-     * 获取实例-单例
-     *
-     * @author 祝文飞（Tailyou）
-     * @time 2016/11/12 11:32
-     */
-    public static RetrofitHelper getInstance() {
-        String baseUrl = setupBaseHttpUrl();
-        instance = retrofitHelperHashtable.get(baseUrl);
-        if (instance == null) {
-            synchronized (RetrofitHelper.class) {
-                if (instance == null) {
-                    instance = new RetrofitHelper();
-                    retrofitHelperHashtable.clear();
-                    retrofitHelperHashtable.put(baseUrl, instance);
-                }
-            }
-        }
-        return instance;
-    }
-
-    /**
      * 组装网络请求基地址
      *
      * @author 祝文飞（Tailyou）
@@ -62,6 +39,23 @@ public class RetrofitHelper extends BaseRetrofit {
      */
     public static String setupBaseHttpUrl() {
         return "http://" + HdAppConfig.getDefaultIpPort() + "/hnbwy/";
+    }
+
+    /**
+     * 获取实例-单例
+     *
+     * @author 祝文飞（Tailyou）
+     * @time 2016/11/12 11:32
+     */
+    public static RetrofitHelper getInstance() {
+        if (instance == null) {
+            synchronized (RetrofitHelper.class) {
+                if (instance == null) {
+                    instance = new RetrofitHelper();
+                }
+            }
+        }
+        return instance;
     }
 
     /**
